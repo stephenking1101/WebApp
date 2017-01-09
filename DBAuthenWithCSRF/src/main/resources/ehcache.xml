@@ -1,0 +1,14 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false">
+
+    <diskStore path="java.io.tmpdir/application_ehcache"/>
+    <defaultCache eternal="false" maxElementsInMemory="1000" overflowToDisk="true" diskPersistent="false"
+        timeToIdleSeconds="0" timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU" />
+    
+    <cache name="roles"
+           maxEntriesLocalHeap="200"
+           timeToLiveSeconds="3600">
+    </cache>
+
+</ehcache>

@@ -1,0 +1,108 @@
+<script type="text/javascript">
+function uploadFiles(){
+    //event.stopPropagation(); //Stop stuff happening
+    //event.preventDefault(); //Totally stop stuff happening
+    
+    //Start a loading spinner here
+    var fileSelect = document.getElementById('fileSelect');
+    
+    if('files' in fileSelect){
+        var files = fileSelect.files;
+        if(files.length == 0){
+            //console.log("error: ", files);
+            renderTemplate(currentMenu, JSON.parse('{"error":"Please select a file!"}'), $("#content"));
+        } else{
+            //Create a formdata object and add the files
+            var data = new FormData();
+            $.each(files, function(key, value){
+                data.append(key, value);
+            });
+            //console.log("upload file: ", data);
+            $.ajax({
+                url: '/fileupload',
+                type: 'POST',
+                data: data,
+                cache: false,
+                dataType: 'json',
+                processData: false, //Don't process the files
+                contentType: false, //Set content type to false as jQuery will tell the server its a query string request
+                beforeSend: openModelDialog,
+                success: function(result, status, xhr){
+                    //console.log("SUCCES: ", result);
+                    renderTemplate(currentMenu, result, $("#content"));
+                },
+                error: function(xhr, status, error){
+                    //console.log("XMLHttpRequest: ", xhr);
+                    var errorMessage = getJSONValue(xhr.responseJSON, "error");
+                    //console.log(errorMessage + ":SESSION_TIME_OUT");
+                    if(errorMessage=="SESSION_TIME_OUT"){
+                        openErrorDialog("Your session has been timeout! Please login again.");
+                    } else {
+                        renderTemplate(currentMenu, errorMessage, $("#content"));
+                    }
+                },
+                complete: closeModelDialog,
+                async:false
+            });
+        }
+    }
+}
+
+function resetFiles(){
+    document.getElementById("fileSelect").value = "";
+}
+</script>
+        <div class="page-header">
+            <h1>File Upload</h1>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-6">
+                <form action="/fileupload" class="form-inline" role="form" id="fileForm" method="POST" enctype="multipart/form-data">  
+                    <div class="form-group">
+					    <label class="sr-only" for="file">Select File:</label>
+					    <input type="file" id="fileSelect" class="form-control" name="fileSelect" onchange="hideError()" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel">
+					
+                    <!-- <div class="input-group">
+					  <input type="text" id="filePath" class="form-control" placeholder="File path">
+					  <div class="input-group-btn">
+                        <input type="file" id="fileSelect" name="fileSelect" multiple/>
+                        <button type="button" id="browse" class="form-control btn btn-default" onclick="fileSelect.click()">Browse</button>
+                        <input type="file" id="fileSelect" class="btn btn-default" name="fileSelect" style="display:none" onchange="onFileSelectChange()">
+                      </div>
+                    </div>  --><!-- /form-group --> 
+                    </div>
+                    <button type="button" class="btn btn-default" id="resetButton" onclick="resetFiles()">Reset</button>
+                    <button type="button" class="btn btn-default" id="uploadButton" onclick="uploadFiles()">Upload</button>
+                </form>
+            </div>
+        </div><!-- /.row --> 
+        {{#if error}}
+            <p id="errorMessage"><font color="red">{{message}}</font></p>
+        {{else}}
+            {{#if message}}
+                <p>{{message}}</p>
+            {{/if}}
+        {{/if}}
+        {{#if fileContent}}
+        <div class="row">
+            <div class="col-md-12">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Value</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each fileContent}}
+                  <tr>
+                    <td>{{@key}}</td>
+                    <td>{{this}}</td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+        </div>
+        {{/if}}

@@ -1,0 +1,416 @@
+        <script type="text/javascript">
+        function showPage(pageNum){
+            $('#currentPage').val(pageNum);
+            openModelDialog();  
+        }
+        
+        function validate(action){
+        	var userName = $("#newName").val().trim();
+            var newPass = $("#newPass").val();
+            var conPass = $("#conPass").val();
+            var userRoles = $("#roles").val();
+            
+            if(action == "ADD"){
+            	if(!userName){
+                    $("#editError").text("Please input username!");
+                    $("#editError").show();
+                    $("#newName").focus();
+                    return false;
+                }
+            	if(!newPass){
+                    $("#editError").text("Please input password!");
+                    $("#editError").show();
+                    $("#newPass").focus();
+                    return false;
+                }
+                if(!conPass){
+                    $("#editError").text("Please input password again!");
+                    $("#editError").show();
+                    $("#conPass").focus();
+                    return false;
+                }
+            }
+            
+            if(newPass != conPass){
+                $("#editError").text("The input passwords are not the same!");
+                $("#editError").show();
+                $("#newPass").focus();
+                return false;
+            }
+            if(!userRoles){
+                $("#editError").text("Please choose the roles!");
+                $("#editError").show();
+                $("#roles").focus();
+                return false;
+            }
+            
+            return true;
+        }
+        
+        function onUpdateButtonClick(action, userId, event){
+        	if(validate(action)){
+        		if(action == "ADD"){
+                    var userName = $("#newName").val().trim();
+                    var newPass = $("#newPass").val();
+                    var conPass = $("#conPass").val();
+                    var userRoles = $("#roles").val();
+                    var data={};
+                    data["username"] = userName;
+                    data["password"] = newPass;
+                    data["roles"] = userRoles;
+                    
+                    $("#newName").attr("disabled","disabled");  
+                    $("#newPass").attr("disabled","disabled");
+                    $("#conPass").attr("disabled","disabled");
+                    $("#roles").attr("disabled","disabled");
+                    $("#updateButton").attr("disabled","disabled");
+                    $("#updateButton").text("Loading...");
+                    postAJAXRequest("/admin/" + "users/add", data, function (error, errorMessage, result){
+                        //$("#editError").hide();
+                        $("#newName").removeAttr("disabled");    
+                        $("#newPass").removeAttr("disabled");
+                        $("#conPass").removeAttr("disabled");
+                        $("#roles").removeAttr("disabled");
+                        $("#updateButton").removeAttr("disabled");
+                        if(error){
+                            $("#editError").text(errorMessage);
+                            $("#editError").show();
+                            $('#updateButton').html('<span class="glyphicon glyphicon-ok-sign"></span>Add');
+                            return;
+                        }
+                        
+                        //$("#newName").val("");
+                        //$("#newPass").val("");
+                        //$("#conPass").val("");
+                        //$("#roles").val("");
+                        $('#editModal').modal('hide');
+                        var end="";
+                        var j=userRoles.length;
+                        if(j > 3) {
+                            j=3;
+                            end="..."
+                        }
+                        var userRoleValues = "";
+                        var userRoleText = "";
+                        for(var i=0;i<userRoles.length;i++){
+                            if(i==j-1){
+                                userRoleText = userRoleText + userRoles[i] + end;
+                            } 
+                            if(i<j-1) {
+                                userRoleText = userRoleText + userRoles[i] + ", ";
+                            }
+                            userRoleValues = userRoleValues + userRoles[i] + ",";
+                        }
+                        //console.log(result);
+                        var id = getJSONValue(getJSONValue(result, "user"),"id");
+                        //console.log($("tbody.user-list tr:first").html());
+                        $("tbody.user-list").append('<tr><td class="userId" value="'
+                        		+id+'">'+id+'</td><td class="userName" value="' 
+                        		+userName+'">'+userName+'</td><td class="userRole" value="'
+                        		+userRoleValues+'">'+userRoleText+'</td><td><p data-placement="top" data-toggle="tooltip" title="Edit"><a href="#" onclick="onEditButtonClick(event);"><span class="glyphicon glyphicon-edit"></span></a></p></td>'                        		
+                                +'<td><p data-placement="top" data-toggle="tooltip" title="Delete"><a href="#" class="userRemove" onclick="onRemoveButtonClick(event);"><span class="glyphicon glyphicon-remove"></span></a></p></td></tr>');
+                    });    
+                }
+                
+                if(action == "UPDATE"){
+                    var userName = $("#newName").val().trim();
+                    var newPass = $("#newPass").val();
+                    var conPass = $("#conPass").val();
+                    var userRoles = $("#roles").val();
+                    var data={};
+                    data["id"] = userId;
+                    data["username"] = userName;
+                    data["password"] = newPass;
+                    data["roles"] = userRoles;
+                    
+                    $("#newName").attr("disabled","disabled");  
+                    $("#newPass").attr("disabled","disabled");
+                    $("#conPass").attr("disabled","disabled");
+                    $("#roles").attr("disabled","disabled");
+                    $("#updateButton").attr("disabled","disabled");
+                    $("#updateButton").text("Loading...");
+                    postAJAXRequest("/admin/" + "users/update", data, function (error, errorMessage){
+                        $("#newName").removeAttr("disabled");    
+                        $("#newPass").removeAttr("disabled");
+                        $("#conPass").removeAttr("disabled");
+                        $("#roles").removeAttr("disabled");
+                        $("#updateButton").removeAttr("disabled");
+                        if(error){
+                            $("#editError").text(errorMessage);
+                            $("#editError").show();
+                            $('#updateButton').html('<span class="glyphicon glyphicon-ok-sign"></span>Update');
+                            return;
+                        }
+                        $('#editModal').modal('hide');
+                        var target = $(event.target);
+                        var end="";
+                        var j=userRoles.length;
+                        if(j > 3) {
+                            j=3;
+                            end="..."
+                        }
+                        var userRoleValues = "";
+                        var userRoleText = "";
+                        for(var i=0;i<userRoles.length;i++){
+                        	if(i==j-1){
+                        		userRoleText = userRoleText + userRoles[i] + end;
+                        	} 
+                        	if(i<j-1) {
+                        		userRoleText = userRoleText + userRoles[i] + ", ";
+                        	}
+                        	userRoleValues = userRoleValues + userRoles[i] + ",";
+                        }
+                        target.parent().parent().parent().siblings(".userRole").attr("value", userRoleValues);
+                        target.parent().parent().parent().siblings(".userRole").text(userRoleText);
+                    });    
+                }	
+        	}
+        }
+        
+        function onAddButtonClick(event){
+        	$("#editError").hide();
+            $('#editModalLabel').text('Add User');
+
+            var roles = $("#roleValues").val().split(",");
+            var options = '';
+            $.each(roles, function(key,val){
+                options = options + '<option value="'+val+'">' + val + '</option>';
+            }); 
+            $('#roles').html(options);
+            $('#updateButton').html('<span class="glyphicon glyphicon-ok-sign"></span>Add');
+            $("#newNameDiv").show();
+            $("#newName").val("");
+            $("#newPass").val("");
+            $("#conPass").val("");
+            $("#roles").val("");
+            $("#updateButton").unbind();
+            $("#updateButton").click( function(e){
+                onUpdateButtonClick("ADD");
+            });
+            $('#editModal').on('shown.bs.modal', function() {
+            	$("#newName").focus();
+              });
+            $('#editModal').modal({backdrop: "static", keyboard: false});
+        }
+        
+        function onEditButtonClick(event){
+        	$("#editError").hide();
+        	var target = $(event.target);
+        	var userId = target.parent().parent().parent().siblings(".userId").attr("value");
+            var userName = target.parent().parent().parent().siblings(".userName").attr("value");
+            
+            $('#editModalLabel').text('Editing User [' + userName + ']');
+            
+            var userRoles = target.parent().parent().parent().siblings(".userRole").attr("value").split(",");
+            userRoles.pop();
+            //console.log(userRoles);
+            var roles = $("#roleValues").val().split(",");
+            var options = '';
+            //console.log(roles);
+            $.each(roles, function(key,val){
+            	if($.inArray(val, userRoles) >= 0){
+            		options = options + '<option value="'+val+'" selected="selected">' + val + '</option>';
+            		//roles.splice($.inArray(val, userRoles),1);
+            	} else {
+            		options = options + '<option value="'+val+'">' + val + '</option>';
+            	}
+            }); 
+            $('#roles').html(options);
+            $('#updateButton').html('<span class="glyphicon glyphicon-ok-sign"></span>Update');
+            $("#newNameDiv").hide();
+            $("#newName").val(userName);
+            $("#newPass").val("");
+            $("#conPass").val("");
+            $("#updateButton").unbind();
+            $("#updateButton").click( function(e){
+            	onUpdateButtonClick("UPDATE", userId, event);
+            });
+            $('#editModal').on('shown.bs.modal', function() {
+                $("#newPass").focus();
+              });
+        	$('#editModal').modal({backdrop: "static", keyboard: false});
+        }
+        
+        function onRemoveButtonClick(event){
+            var target = $(event.target);
+            var userId = target.parent().parent().parent().siblings(".userId").text();
+            var userName = target.parent().parent().parent().siblings(".userName").text();
+            confirmation("Do you want to remove user [" + userName + "] ?").then(function(answer){
+                if(answer == "true"){
+                	var data={};
+                    data["username"] = userName;
+                    data["id"] = userId;
+                    var xhr = postAJAXRequest("/admin/" + "users/delete", data);
+                    if(xhr) {
+                    	var error = getJSONValue(xhr.responseJSON, "error");
+                    	var errorMessage = getJSONValue(xhr.responseJSON, "message");
+                    	if(error && errorMessage){
+                    		$('<div></div>').html(errorMessage + '<a href="/login">click here to login again</a>').dialog({
+                                autoOpen: true,
+                                modal: true,
+                                dialogClass: "no-close",
+                                title: 'Error',
+                                buttons: {
+                                    "OK": function(){
+                                        $(this).dialog("close");
+                                    }
+                                },
+                                close: function(){
+                                    $(this).remove();
+                                }
+                            });
+                    		
+                    		return;
+                    	}
+
+                    	target.closest("tr").remove();
+                    	showNotification('bottom','center', 'info', userName + ' was deleted successfully.');
+                    }
+                }
+            });
+        }
+
+        function confirmation(question){
+            var defer = $.Deferred();
+            $('<div></div>').html(question).dialog({
+                autoOpen: true,
+                modal: true,
+                dialogClass: "no-close",
+                title: 'Delete User',
+                buttons: {
+                    "Yes": function(){
+                        defer.resolve("true");
+                        $(this).dialog("close");
+                    },
+                    "No": function(){
+                        defer.resolve("false");
+                        $(this).dialog("close");
+                    }
+                },
+                close: function(){
+                    $(this).remove();
+                }
+            });
+            
+            return defer.promise();
+        }
+        </script>
+        <div class="row">
+                  <div class="col-md-6">
+                    <div class="input-group">
+                      <input type="text" id="userName" class="form-control" placeholder="Search user">
+                      <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" id="searchButton" onclick="openModelDialog()"><span class="glyphicon glyphicon-search"></span></button>
+                      </span>
+                    </div><!-- /input-group -->
+                  </div><!-- /.col-md-6 -->
+                  <div class="col-md-6">
+                    <button type="button" class="btn btn-info pull-left" id="addButton" onclick="onAddButtonClick(event);">Add User</button>
+                  </div>
+        </div>
+        <input type="text" id="roleValues" value="{{roles}}" hidden="hidden"/>
+        {{#if error}}
+            <p id="errorMessage"><font color="red">{{message}}</font></p>
+        {{else}}
+            {{#if message}}
+                <p>{{message}}</p>
+            {{/if}}
+        {{/if}}
+        {{#if users}}
+        <br/>
+        <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">User List</h4>
+                                <p class="category">Edit the row to modify the user name or password</p>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Role</th>
+                                        <th></th>
+                                        <th></th>
+                                    </thead>
+                                    
+                                    <tbody class="user-list">
+                                    {{#each users}}
+                                        <tr>
+                                            <td class="userId" value="{{id}}">{{id}}</td>
+                                            <td class="userName" value="{{username}}">{{username}}</td>
+                                            <td class="userRole" value="{{#each authorities}}{{authority}},{{/each}}">{{#listFirstThree authorities}}{{authority}}{{/listFirstThree}}</td>
+                                            <td>
+                                                <p data-placement="top" data-toggle="tooltip" title="Edit"><a href="#" onclick="onEditButtonClick(event);"><span class="glyphicon glyphicon-edit"></span></a></p>
+                                            </td>
+                                            <td>
+                                                <p data-placement="top" data-toggle="tooltip" title="Delete"><a href="#" class="userRemove" onclick="onRemoveButtonClick(event);"><span class="glyphicon glyphicon-remove"></span></a></p>
+                                            </td>
+                                        </tr>
+                                    {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="fixed-table-pagination">
+                                <!-- 
+								<div class="pull-left pagination-detail">
+									<span class="pagination-info"></span>
+									<span class="page-list">
+										<span class="btn-group dropup">
+											<button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+												<span class="page-size">8</span>
+												<span class="caret"></span>
+											</button>
+											<ul class="dropdown-menu" role="menu">
+												<li class="active">
+												<a href="javascript:void(0)">8</a>
+												</li>
+												<li>
+												<a href="javascript:void(0)">10</a>
+												</li>
+												<li>
+												<a href="javascript:void(0)">25</a>
+												</li>
+											</ul>
+										</span>
+										rows visible
+									</span>
+								</div>
+								 -->
+								<div class="pull-right pagination">
+								    <input type="text" id="currentPage" hidden="hidden"/>
+								    {{pagination totalPages currentPage}}
+								    <!-- 
+									<ul class="pagination">
+										<li class="page-first disabled">
+										<a href="javascript:void(0)">«</a>
+										</li>
+										<li class="page-pre disabled">
+										<a href="javascript:void(0)">‹</a>
+										</li>
+										<li class="page-number active">
+										<a href="javascript:void(0)">1</a>
+										</li>
+										<li class="page-number">
+										<a href="javascript:void(0)">2</a>
+										</li>
+										<li class="page-number">
+										<a href="javascript:void(0)">3</a>
+										</li>
+										<li class="page-next">
+										<a href="javascript:void(0)">›</a>
+										</li>
+										<li class="page-last">
+										<a href="javascript:void(0)">»</a>
+										</li>
+									</ul>
+									 -->
+								</div>
+							</div>
+                        </div>
+                    </div>
+        </div>
+        {{/if}}
+        
+        
