@@ -30,6 +30,27 @@ function uploadFiles(){
                 success: function(result, status, xhr){
                     //console.log("SUCCES: ", result);
                     renderTemplate(currentMenu, result, $("#content"));
+                    var test={
+                    		 "rows":[
+                    		 {"id":1, "name":"sallency", "age": 26},
+                    		 {"id":1, "name":"sallency", "age": 26},
+                    		 {"id":1, "name":"sallency", "age": 26},
+                    		 {"id":1, "name":"sallency", "age": 26},
+                    		 {"id":1, "name":"sallency", "age": 26}]
+                    		};
+                    $('#fileTable').bootstrapTable({
+                    	search: true,//是否搜索
+                    	pagination: true,//是否分页
+                    	pageSize: 2,//单页记录数
+                        columns: [{
+                            field: 'id',
+                            title: 'Item ID'
+                        }, {
+                            field: 'name',
+                            title: 'Item Name'
+                        }],
+                        data: test.rows //需要数组
+                    });
                 },
                 error: function(xhr, status, error){
                     //console.log("XMLHttpRequest: ", xhr);
@@ -50,12 +71,31 @@ function uploadFiles(){
 
 function resetFiles(){
     document.getElementById("fileSelect").value = "";
+    $("#fileContent").html("");
+}
+
+function showReport(){
+	new Chartist.Line('#fileChart', {
+		  labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+		  series: [
+		    [12, 9, 7, 8, 5],
+		    [2, 1, 3.5, 7, 3],
+		    [1, 3, 4, 5, 6]
+		  ]
+		}, {
+		  fullWidth: true,
+		  chartPadding: {
+		    right: 40
+		  }
+		});
+	
+	$('#fileChart').show();
 }
 </script>
         <div class="page-header">
             <h1>File Upload</h1>
         </div>
-        
+        <div id="fileChart" hidden="hidden"></div>
         <div class="row">
             <div class="col-md-6">
                 <form action="/fileupload" class="form-inline" role="form" id="fileForm" method="POST" enctype="multipart/form-data">  
@@ -73,8 +113,11 @@ function resetFiles(){
                     </div>  --><!-- /form-group --> 
                     </div>
                     <button type="button" class="btn btn-default" id="resetButton" onclick="resetFiles()">Reset</button>
-                    <button type="button" class="btn btn-default" id="uploadButton" onclick="uploadFiles()">Upload</button>
+                    <button type="button" class="btn btn-default" id="uploadButton" onclick="openModelDialog()">Upload</button>
                 </form>
+            </div>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-default" id="reportButton" onclick="showReport()">Report</button>
             </div>
         </div><!-- /.row --> 
         {{#if error}}
@@ -85,7 +128,7 @@ function resetFiles(){
             {{/if}}
         {{/if}}
         {{#if fileContent}}
-        <div class="row">
+        <div class="row" id="fileContent">
             <div class="col-md-12">
               <table class="table table-striped">
                 <thead>
@@ -103,6 +146,7 @@ function resetFiles(){
                   {{/each}}
                 </tbody>
               </table>
+              <table id="fileTable"></table>
             </div>
         </div>
         {{/if}}

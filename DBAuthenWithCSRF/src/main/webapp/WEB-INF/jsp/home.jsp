@@ -1,4 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page contentType="text/html;charset=utf-8" %> 
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,7 +20,9 @@
 
     <!-- Bootstrap core CSS -->
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet">
-
+    <link href="<%=request.getContextPath()%>/resources/css/bootstrap-table.min.css" rel="stylesheet">
+    <link href="<%=request.getContextPath()%>/resources/css/chartist.min.css" rel="stylesheet">
+    
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <link href="<%=request.getContextPath()%>/resources/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
@@ -39,6 +43,9 @@
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script> -->
     <script>window.jQuery || document.write('<script src="<%=request.getContextPath()%>/resources/js/jquery.min.js"><\/script>')</script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap-table.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootstrap-table-en-US.js"></script>
+    <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/bootbox.min.js"></script>
     <!--  Charts Plugin -->
     <script src="<%=request.getContextPath()%>/resources/js/chartist.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/resources/js/handlebars.js"></script>
@@ -51,6 +58,42 @@
 	  border-color: #ccc;
 	}
     </style>  -->
+    <style>
+    /* CUSTOMIZE THE CAROUSEL
+	-------------------------------------------------- */
+	
+	/* Carousel base class */
+	.carousel {
+	  height: 500px;
+	  margin-bottom: 60px;
+	}
+	/* Since positioning the image, we need to help out the caption */
+	.carousel-caption {
+	  z-index: 10;
+	}
+	
+	/* Declare heights because of positioning of img element */
+	.carousel .item {
+	  height: 500px;
+	  background-color: #777;
+	}
+	.carousel-inner > .item > img {
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	  min-width: 100%;
+	  height: 500px;
+	}
+	@media (min-width: 768px) {
+	  /* Bump up size of carousel content */
+	  .carousel-caption p {
+	    margin-bottom: 20px;
+	    font-size: 21px;
+	    line-height: 1.4;
+	  }
+	}
+    </style> 
+    <sec:authentication property="authorities" var="authorities"/>
   </head>
 
   <body>
@@ -85,7 +128,7 @@
               </ul>
             </li>
              -->
-            <li><a href="#">ABOUT</a></li>
+            <li><a href="#" onclick="showCompany(event);">ABOUT</a></li>
             <li><a href="#">CONTACT</a></li>
           </ul>
 		  <ul class="nav navbar-nav navbar-right">
@@ -95,7 +138,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${username} <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Permissions</a></li>
+                <li><a href="#" value='<c:forEach items="${authorities}" var="authority">${authority.authority},</c:forEach>' onclick="showPermission(event);">Permissions</a></li>
                 <li role="separator" class="divider"></li>
                 <li><a href="<%=request.getContextPath()%>/logout">Logout</a></li>
               </ul>
@@ -111,15 +154,51 @@
       <div class="page-header">
         <h1>Welcome ${username}</h1>
       </div>
-      <p class="lead">Pin a fixed-height footer to the bottom of the viewport in desktop browsers with this custom HTML and CSS. A fixed navbar has been added with <code>padding-top: 60px;</code> on the <code>body > .container</code>.</p>
-      <p>Back to <a href="#">the default sticky footer</a> minus the navbar.</p>
+      <p class="lead">Enjoy the amazing app.</p>
+      <div id="appCarousel" class="carousel slide" data-ride="">
+		   <!-- 轮播（Carousel）指标 -->
+		   <ol class="carousel-indicators">
+		      <li data-target="#appCarousel" data-slide-to="0" class="active"></li>
+		      <li data-target="#appCarousel" data-slide-to="1"></li>
+		      <li data-target="#appCarousel" data-slide-to="2"></li>
+		   </ol>   
+		   <!-- 轮播（Carousel）项目 -->
+	       <div class="carousel-inner">
+		      <div class="item active">
+		         <img src="<%=request.getContextPath()%>/resources/img/slide1.jpg" alt="First slide">
+		         <div class="carousel-caption">
+			         <h3>File Upload</h3>
+			         <p>Excel upload feature for reporting</p>
+			         <p><a class="btn btn-lg btn-primary" href="<%=request.getContextPath()%>/file" role="button">Learn more</a></p>
+		         </div>
+		      </div>
+		      <div class="item">
+		         <img src="<%=request.getContextPath()%>/resources/img/slide2.jpg" alt="Second slide">
+		         <div class="carousel-caption">Dummy标题</div>
+		      </div>
+		      <div class="item">
+		         <img src="<%=request.getContextPath()%>/resources/img/slide3.jpg" alt="Third slide">
+		         <div class="carousel-caption">Dummy标题 </div>
+		   </div>
+	   </div>
+	   <!-- 轮播（Carousel）导航 -->
+	   <a class="carousel-control left" href="#appCarousel" data-slide="prev">
+	      <span class="glyphicon glyphicon-chevron-left"></span>
+          <span class="sr-only">Previous</span>
+       </a>
+	   <a class="carousel-control right" href="#appCarousel" data-slide="next">
+	       <span class="glyphicon glyphicon-chevron-right"></span>
+           <span class="sr-only">Next</span>
+	   </a>
+	  </div>
+      <p>Back to <a href="#">the top</a> of the page.</p>
       </div>
     </div>
 
     <footer class="footer">
         <div class="container">
             <p class="text-muted pull-right">
-                &copy; 2016 <a href="#">Supperware</a>, made with love for a better web
+                &copy; 2016 <a href="#">Superware</a>, made with love for a better web
             </p>
         </div>
     </footer>

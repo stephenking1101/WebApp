@@ -1,4 +1,5 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page contentType="text/html;charset=utf-8" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -135,7 +136,7 @@
                     </ul>
                 </nav>
                 <p class="copyright pull-right">
-                    &copy; 2016 <a href="#">Supperware</a>, made with love for a better web
+                    &copy; 2016 <a href="#">Superware</a>, made with love for a better web
                 </p>
             </div>
         </footer>

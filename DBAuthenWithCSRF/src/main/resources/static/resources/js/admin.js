@@ -141,7 +141,7 @@ $(document).ready(function(){
 		                    closeModelDialog();
 		                    break;
         		  }
-        	  })
+        	  });
         		
               $("#admin\\/users").click( function(e) {
             	  currentMenu="admin/users";

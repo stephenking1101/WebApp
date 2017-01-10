@@ -81,12 +81,12 @@ $(document).ready(function(){
         		  switch(currentMenu){
         		    case "file":
         		    			hideError();
-        		    			//uploadFiles(e);
-        		    			//closeModelDialog();
+        		    			uploadFiles();
+        		    			closeModelDialog();
         		    			
 			                    break;
         		  }
-        	  })
+        	  });
         	  
         	  // Every time a modal is shown, if it has an autofocus element, focus on it $('.modal'). 
         	  $('#login-modal').on('shown.bs.modal', function() {
@@ -343,4 +343,31 @@ function onAdminModalLogin() {
             $("#loginButton").text("Login");
         },
         async:false});
+}
+
+function showPermission(event){
+	var target = $(event.target);
+	var userRoles = target.attr("value").split(",");
+    userRoles.pop();
+    var content = "";
+    for(var i=0; i<userRoles.length; i++){
+    	content = content + "<li>" + userRoles[i] + "</li>";
+    }
+    bootbox.dialog({ 
+    	title: 'Your roles:',
+    	message: '<div><ul>' + content + '</ul></div>',
+        buttons: {
+            ok: {
+                label: 'OK',
+                className: 'btn-info'
+            }
+        }
+    });
+}
+
+function showCompany(event){
+    bootbox.alert({ 
+    	title: 'Company Info',
+    	message: '<span>&copy; 2016 Superware, made with love for a better web</span>'
+    });
 }

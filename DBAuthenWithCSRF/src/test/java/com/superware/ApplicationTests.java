@@ -1,4 +1,4 @@
-package com.example;
+package com.superware;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
