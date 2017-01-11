@@ -4,13 +4,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,13 +30,17 @@ public class FileServiceImpl implements FileService {
 			System.out.println(file.getBytes().length);
 			System.out.println(file.getContentType());
 			System.out.println(file.getOriginalFilename());
-			if (!file.getContentType().equals("application/vnd.ms-excel")){
+			Workbook wb = null;
+			if (file.getContentType().equals("application/vnd.ms-excel")){
+				wb = new HSSFWorkbook(file.getInputStream());
+			} else if(file.getContentType().equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")){
+				wb = new XSSFWorkbook(file.getInputStream());
+			} else {
 				throw new ApplicationException("Content type not allowed");
 			}
-			HSSFWorkbook wb = new HSSFWorkbook(file.getInputStream());
 			
 			for(int i = 0; i<wb.getNumberOfSheets(); i++){
-				HSSFSheet sheet = wb.getSheetAt(i);
+				Sheet sheet = wb.getSheetAt(i);
 				System.out.println("Sheet " + i + " \"" + wb.getSheetName(i) + "\" has " + sheet.getPhysicalNumberOfRows() + " row(s).");
 				for (Row row : sheet){
 					for (Cell cell : row){
