@@ -114,8 +114,10 @@ $(document).ready(function(){
 	          var token = $("meta[name='_csrf']").attr("content");
               var header = $("meta[name='_csrf_header']").attr("content");
 			  //Default header added by jQuery
+              var headerJson = {'X-Requested-With':'XMLHttpRequest'};
+              headerJson[header] = token;
 			  $.ajaxSetup({
-			  	headers:{'X-Requested-With':'XMLHttpRequest', [header]:token}
+				  headers: headerJson
 			  })
 			  currentMenu = $('#currentMenu').val();
 	
@@ -371,4 +373,19 @@ function showNotification(from, align, type, msg){
             align: align
         }
     });
+}
+
+function showAccountInfo(event){
+	var target = $(event.target);
+	var userRoles = target.attr("value").split(",");
+    userRoles.pop();
+    var content = "";
+    for(var i=0; i<userRoles.length; i++){
+    	content = content + "<li>" + userRoles[i] + "</li>";
+    }
+    
+    var message = '<div><ul>' + content + '</ul></div>';
+    $('#infoModalLabel').html('Your roles:');
+    $('#infoModalBody').html(message);
+    $('#infoModal').modal({backdrop: "static", keyboard: false});
 }
