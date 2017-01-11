@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html;charset=utf-8" %>
 <!doctype html>
@@ -40,6 +41,7 @@
 	  display: none;
 	}
 	</style>
+	<sec:authentication property="authorities" var="authorities"/>
 </head>
 <body>
 <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -61,6 +63,12 @@
                     <a id="admin/users" href="#">
                         <i class="pe-7s-note2"></i>
                         User List
+                    </a>
+                </li>
+                <li>
+                    <a id="admin/roles" href="#">
+                        <i class="pe-7s-note"></i>
+                        Role List
                     </a>
                 </li>
                 <li>
@@ -100,7 +108,7 @@
                                     <b class="caret"></b>
                               </a>
                               <ul class="dropdown-menu">
-                                <li><a href="#">Account</a></li>
+                                <li><a href="#" value='<c:forEach items="${authorities}" var="authority">${authority.authority},</c:forEach>' onclick="showAccountInfo(event);">Account</a></li>
                                 <li class="divider"></li>
                                 <li><a href="<%=request.getContextPath()%>/logout">Log out</a></li>
                               </ul>
@@ -212,6 +220,22 @@
                 </div>
             </div>
           </div>
+    </div>
+    <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                          &times;            
+                    </button>
+                    <h4 class="modal-title" id="infoModalLabel"></h4>
+                </div>
+                <div class="modal-body" id="infoModalBody"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">OK</button>
+                </div>
+             </div><!-- /.modal-content -->
+         </div><!-- /.modal -->
     </div>
 </div>
 </sec:authorize>
