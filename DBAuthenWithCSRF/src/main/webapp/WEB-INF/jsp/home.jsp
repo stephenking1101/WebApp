@@ -129,7 +129,7 @@
             </li>
              -->
             <li><a href="#" onclick="showCompany(event);">ABOUT</a></li>
-            <li><a href="#">CONTACT</a></li>
+            <li><a href="#" onclick="showContact(event);">CONTACT</a></li>
           </ul>
 		  <ul class="nav navbar-nav navbar-right">
 		    <sec:authorize access="hasRole('ROLE_ADMIN')">
