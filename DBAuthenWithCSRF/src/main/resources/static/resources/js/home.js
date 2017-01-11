@@ -61,9 +61,11 @@ $(document).ready(function(){
               var token = $("meta[name='_csrf']").attr("content");
               var header = $("meta[name='_csrf_header']").attr("content");
               var parameterName = $("meta[name='_csrf_parameterName']").attr("content");
+              var headerJson = {'X-Requested-With':'XMLHttpRequest'};
+              headerJson[header] = token;
 			  //Default header added by jQuery
 			  $.ajaxSetup({
-			  	headers:{'X-Requested-With':'XMLHttpRequest', [header]:token}
+			  	headers: headerJson
 			  })
 			  //updateForms(parameterName, token); 
 			  //updateTags(parameterName, token); 
@@ -369,5 +371,18 @@ function showCompany(event){
     bootbox.alert({ 
     	title: 'Company Info',
     	message: '<span>&copy; 2016 Superware, made with love for a better web</span>'
+    });
+}
+
+function showContact(event){
+	var content = '<div><p class="text-center"><em>We love our fans!</em></p>' +
+	    '<div>' +
+	      '<p><span class="glyphicon glyphicon-map-marker"></span>Guangzhong, Guangdong, China</p>' +
+	      '<p><span class="glyphicon glyphicon-phone"></span>Phone: +86 20 38585116</p>' +
+	      '<p><span class="glyphicon glyphicon-envelope"></span>Email: <a href="mailto:mail@mail.com">mail@mail.com</a></p>' +
+	    '</div></div>';
+    bootbox.alert({ 
+    	title: 'Contact',
+    	message: content
     });
 }
