@@ -71,13 +71,14 @@
                         Role List
                     </a>
                 </li>
+                <!-- 
                 <li>
                     <a id="admin/maps" href="#">
                         <i class="pe-7s-map-marker"></i>
                         Maps
                     </a>
                 </li>
-				<!-- 
+				
 				<li class="active-pro">
                     <a href="#">
                         <i class="pe-7s-rocket"></i>
