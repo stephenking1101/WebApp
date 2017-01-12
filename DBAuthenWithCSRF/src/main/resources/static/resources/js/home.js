@@ -87,6 +87,11 @@ $(document).ready(function(){
         		    			closeModelDialog();
         		    			
 			                    break;
+        		    case "maps":
+		    			hideError();
+		    			loadJScript();
+	                    closeModelDialog();
+	                    break;
         		  }
         	  });
         	  
@@ -105,6 +110,20 @@ $(document).ready(function(){
             	  window.history.pushState(currentMenu, "file upload page", "/" + currentMenu);
             	  
             	  //$('#fileForm').on('submit', uploadFiles);
+            	  return false; 
+                  } );
+        	  
+        	  
+        	  $("#maps").click( function(e) {
+            	  currentMenu="maps";
+            	  $('#currentMenu').val(currentMenu);
+            	  e.preventDefault(); 
+            	  
+            	  $("li").removeClass("active");
+            	  $(this).parent().addClass("active");
+            	  renderTemplate(this.id, {}, $("#content"));
+            	  window.history.pushState(currentMenu, "maps page", "/" + currentMenu);
+            	  openModelDialog();
             	  return false; 
                   } );
         	  //$(window).on("beforeunload", getServerTime);
@@ -377,7 +396,7 @@ function showCompany(event){
 function showContact(event){
 	var content = '<div><p class="text-center"><em>We love our fans!</em></p>' +
 	    '<div>' +
-	      '<p><span class="glyphicon glyphicon-map-marker"></span>Guangzhong, Guangdong, China</p>' +
+	      '<p><a href="/maps"><span class="glyphicon glyphicon-map-marker"></span>Guangzhou, Guangdong, China</a></p>' +
 	      '<p><span class="glyphicon glyphicon-phone"></span>Phone: +86 20 38585116</p>' +
 	      '<p><span class="glyphicon glyphicon-envelope"></span>Email: <a href="mailto:mail@mail.com">mail@mail.com</a></p>' +
 	    '</div></div>';
