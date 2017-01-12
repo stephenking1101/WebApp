@@ -71,14 +71,16 @@ public class AdminController {
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/maps")
-    public String getMapsPage(Model model) {
+	@RequestMapping(value = "/roles")
+    public @ResponseBody Map<Object, Object> getMapsPage(Model model) {
+		Map<Object, Object> result = new HashMap<Object, Object>();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = ((ApplicationUser)principal).getUsername();
 		
-		model.addAttribute("username", userName);
-		model.addAttribute("currentMenu", "admin/maps");
-		return "admin";
+		result.put("username", userName);
+		result.put("currentMenu", "admin/roles");
+		result.put("roles", adminService.getAllRoles());
+		return result;
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
