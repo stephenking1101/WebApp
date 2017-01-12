@@ -117,19 +117,16 @@
             <sec:authorize access="hasAnyRole('ROLE_POWERUSER', 'ROLE_USER')">
             <li><a id="file" href="#">FILE</a></li>
             </sec:authorize>
-            <!-- 
+            <li><a id="maps" href="#">MAP</a></li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DROPDOWN <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">INFO <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Action</a></li>
+                <li><a href="#" onclick="showContact(event);">CONTACT US</a></li>
                 <li role="separator" class="divider"></li>
-                <li class="dropdown-header">Header</li>
-                <li><a href="#">Separated link</a></li>
+                <li class="dropdown-header">More</li>
+                <li><a href="#" onclick="showCompany(event);">ABOUT</a></li>
               </ul>
             </li>
-             -->
-            <li><a href="#" onclick="showCompany(event);">ABOUT</a></li>
-            <li><a href="#" onclick="showContact(event);">CONTACT</a></li>
           </ul>
 		  <ul class="nav navbar-nav navbar-right">
 		    <sec:authorize access="hasRole('ROLE_ADMIN')">
@@ -178,7 +175,10 @@
 		      </div>
 		      <div class="item">
 		         <img src="<%=request.getContextPath()%>/resources/img/slide3.jpg" alt="Third slide">
-		         <div class="carousel-caption">Dummy标题 </div>
+		         <div class="carousel-caption">
+		             <h3>Made with love for a better web</h3>
+                     <p><a class="btn btn-lg btn-primary" href="#" role="button" onclick="showContact(event);">Contact Us</a></p>
+                 </div>
 		   </div>
 	   </div>
 	   <!-- 轮播（Carousel）导航 -->
