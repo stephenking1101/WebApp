@@ -1,3 +1,11 @@
+Handlebars.registerHelper('ifCond', function(v1, v2, options) {
+  if(v1 == v2) {
+    return options.fn(this);
+  }
+  
+  return options.inverse(this);
+});
+
 Handlebars.registerHelper('listFirstThree', function(context, options){
 	var ret="";
 	if(context){
@@ -137,9 +145,9 @@ $(document).ready(function(){
 			                closeModelDialog();
 			                //$(".userRemove").click(onRemoveButtonClick);
 			                break;
-        		    case "admin/maps":
+        		    case "admin/roles":
 			    			hideError();
-			    			loadJScript();
+			    			postAJAXRequest("/admin/" + "roles", {}, currentMenu, $("#content"));
 		                    closeModelDialog();
 		                    break;
         		  }
@@ -159,15 +167,15 @@ $(document).ready(function(){
             	  return false; 
                   } );
         	  
-        	  $("#admin\\/maps").click( function(e) {
-            	  currentMenu="admin/maps";
+        	  $("#admin\\/roles").click( function(e) {
+            	  currentMenu="admin/roles";
             	  $('#currentMenu').val(currentMenu);
             	  e.preventDefault(); 
             	  
             	  $("li").removeClass("active");
             	  $(this).parent().addClass("active");
             	  renderTemplate(this.id, {}, $("#content"));
-            	  window.history.pushState(currentMenu, "maps page", "/" + currentMenu);
+            	  window.history.pushState(currentMenu, "roles page", "/" + currentMenu);
             	  openModelDialog();
             	  if(lbd.misc.navbar_menu_visible == 1) $('.navbar-toggle').triggerHandler("click");
             	  return false; 
@@ -208,7 +216,7 @@ function postAJAXRequest(url, data, template, target) {
                             dataType: 'json',
                             data: JSON.stringify(data),
                             success: function(result,status,xhr){
-                                console.log("SUCCESS: ", result);
+                                //console.log("SUCCESS: ", result);
                                 //console.log("Status: " + status);
                                 //console.log("XMLHttpRequest: ", xhr);
                                 if(!template){
@@ -228,7 +236,7 @@ function postAJAXRequest(url, data, template, target) {
                                 //console.log("data: ", data);
                                 //console.log("ERROR: ", error);
                                 //console.log("Status: " + status);
-                                console.log("XMLHttpRequest: ", xhr);
+                                //console.log("XMLHttpRequest: ", xhr);
                                 var errorMessage = getJSONValue(xhr.responseJSON, "error");
                                 var errorMessageCont = getJSONValue(xhr.responseJSON, "message");
                                 //console.log(errorMessage + ":SESSION_TIME_OUT");
