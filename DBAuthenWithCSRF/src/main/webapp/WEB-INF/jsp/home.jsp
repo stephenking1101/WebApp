@@ -152,7 +152,7 @@
         <h1>Welcome ${username}</h1>
       </div>
       <p class="lead">Enjoy the amazing app.</p>
-      <div id="appCarousel" class="carousel slide" data-ride="">
+      <div id="appCarousel" class="carousel slide" data-ride="carousel">
 		   <!-- 轮播（Carousel）指标 -->
 		   <ol class="carousel-indicators">
 		      <li data-target="#appCarousel" data-slide-to="0" class="active"></li>
