@@ -1,0 +1,49 @@
+        
+        {{#if error}}
+            <p id="errorMessage"><font color="red">{{message}}</font></p>
+        {{else}}
+            {{#if message}}
+                <p>{{message}}</p>
+            {{/if}}
+        {{/if}}
+        {{#if roles}}
+        <br/>
+        <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="header">
+                                <h4 class="title">Role List</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                    </thead>
+                                    
+                                    <tbody class="user-list">
+                                    {{#each roles}}
+                                        <tr>
+                                            <td>{{@key}}</td>
+                                            <td>{{this}}</td>
+                                            {{#ifCond this "ROLE_USER"}}
+											    <td>Normal User</td>
+											{{/ifCond}}
+                                            {{#ifCond this "ROLE_POWERUSER"}}
+                                                <td>Power User</td>
+                                            {{/ifCond}}
+                                            {{#ifCond this "ROLE_ADMIN"}}
+                                                <td>Administrator</td>
+                                            {{/ifCond}}
+                                        </tr>
+                                    {{/each}}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+        {{/if}}
+        
+        
