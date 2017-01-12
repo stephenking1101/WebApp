@@ -72,7 +72,7 @@ public class AdminController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/roles")
-    public @ResponseBody Map<Object, Object> getMapsPage(Model model) {
+    public @ResponseBody Map<Object, Object> getRolesPage(Model model) {
 		Map<Object, Object> result = new HashMap<Object, Object>();
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String userName = ((ApplicationUser)principal).getUsername();
