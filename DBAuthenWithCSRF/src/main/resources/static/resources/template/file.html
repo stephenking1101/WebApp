@@ -39,9 +39,9 @@ function uploadFiles(){
                     		 {"id":1, "name":"sallency", "age": 26}]
                     		};
                     $('#fileTable').bootstrapTable({
-                    	search: true,//ÊÇ·ñËÑË÷
-                    	pagination: true,//ÊÇ·ñ·ÖÒ³
-                    	pageSize: 2,//µ¥Ò³¼ÇÂ¼Êı
+                    	search: true,//æ˜¯å¦æœç´¢
+                    	pagination: true,//æ˜¯å¦åˆ†é¡µ
+                    	pageSize: 2,//å•é¡µè®°å½•æ•°
                         columns: [{
                             field: 'id',
                             title: 'Item ID'
@@ -49,7 +49,7 @@ function uploadFiles(){
                             field: 'name',
                             title: 'Item Name'
                         }],
-                        data: test.rows //ĞèÒªÊı×é
+                        data: test.rows //éœ€è¦æ•°ç»„
                     });
                 },
                 error: function(xhr, status, error){
@@ -110,7 +110,7 @@ function showReport(){
                         <button type="button" id="browse" class="form-control btn btn-default" onclick="fileSelect.click()">Browse</button>
                         <input type="file" id="fileSelect" class="btn btn-default" name="fileSelect" style="display:none" onchange="onFileSelectChange()">
                       </div>
-                    </div>  --><!-- /form-group --> 
+                    </div> --><!-- /form-group --> 
                     </div>
                     <button type="button" class="btn btn-default" id="resetButton" onclick="resetFiles()">Reset</button>
                     <button type="button" class="btn btn-default" id="uploadButton" onclick="openModelDialog()">Upload</button>
