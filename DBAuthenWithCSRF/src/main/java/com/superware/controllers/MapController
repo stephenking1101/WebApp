@@ -17,6 +17,6 @@ public class MapController {
 		
 		model.addAttribute("username", userName);
 		model.addAttribute("currentMenu", "maps");
-		return "home";
+		return "maps";
     }
 }
