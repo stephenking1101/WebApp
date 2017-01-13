@@ -19,8 +19,6 @@
     <link href="<%=request.getContextPath()%>/resources/css/jquery-ui.min.css" rel="stylesheet" />
     <!-- Bootstrap core CSS     -->
     <link href="<%=request.getContextPath()%>/resources/css/bootstrap.min.css" rel="stylesheet" />
-    <!-- Bootstrap table CSS -->
-    <link href="<%=request.getContextPath()%>/resources/css/bootstrap-table.min.css" rel="stylesheet" />
     
     <!-- Animation library for notifications   -->
     <link href="<%=request.getContextPath()%>/resources/css/animate.min.css" rel="stylesheet"/>
@@ -247,9 +245,6 @@
     <script src="<%=request.getContextPath()%>/resources/js/jquery-ui.min.js" type="text/javascript"></script>
 	<script src="<%=request.getContextPath()%>/resources/js/bootstrap.js" type="text/javascript"></script>
 
-    <!--  Table Plugin -->
-    <script src="<%=request.getContextPath()%>/resources/js/bootstrap-table.js" type="text/javascript"></script>
-    <script src="<%=request.getContextPath()%>/resources/js/bootstrap-table-en-US.js" type="text/javascript"></script>
 	<!--  Checkbox, Radio & Switch Plugins -->
 	<script src="<%=request.getContextPath()%>/resources/js/bootstrap-checkbox-radio-switch.js"></script>
 
