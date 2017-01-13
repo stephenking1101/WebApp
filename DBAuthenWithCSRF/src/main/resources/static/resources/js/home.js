@@ -87,11 +87,6 @@ $(document).ready(function(){
         		    			closeModelDialog();
         		    			
 			                    break;
-        		    case "maps":
-		    			hideError();
-		    			loadJScript();
-	                    closeModelDialog();
-	                    break;
         		  }
         	  });
         	  
@@ -101,6 +96,7 @@ $(document).ready(function(){
         	  });
         	  
         	  $("#file").click( function(e) {
+        		  if($("#allmap")) $("#allmap").hide();
             	  currentMenu="file";
             	  $('#currentMenu').val(currentMenu);
             	  e.preventDefault(); 
@@ -112,23 +108,11 @@ $(document).ready(function(){
             	  //$('#fileForm').on('submit', uploadFiles);
             	  return false; 
                   } );
-        	  
-        	  
-        	  $("#maps").click( function(e) {
-            	  currentMenu="maps";
-            	  $('#currentMenu').val(currentMenu);
-            	  e.preventDefault(); 
-            	  
-            	  $("li").removeClass("active");
-            	  $(this).parent().addClass("active");
-            	  renderTemplate(this.id, {}, $("#content"));
-            	  window.history.pushState(currentMenu, "maps page", "/" + currentMenu);
-            	  openModelDialog();
-            	  return false; 
-                  } );
+
         	  //$(window).on("beforeunload", getServerTime);
         	  
         	  if(currentMenu!="" && currentMenu!="home") $("#" + currentMenu).triggerHandler("click");
+        	  if(currentMenu=="maps")initMap();
 });
 /*
 function getServerTime(){
