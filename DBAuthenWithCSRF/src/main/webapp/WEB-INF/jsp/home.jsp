@@ -117,7 +117,7 @@
             <sec:authorize access="hasAnyRole('ROLE_POWERUSER', 'ROLE_USER')">
             <li><a id="file" href="#">FILE</a></li>
             </sec:authorize>
-            <li><a id="maps" href="#">MAP</a></li>
+            <li><a id="maps" href="<%=request.getContextPath()%>/maps">MAP</a></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">INFO <span class="caret"></span></a>
               <ul class="dropdown-menu">
