@@ -319,7 +319,7 @@ function openModelDialog(){
             $(document).bind('contextmenu', disableEvent);
             
             $('#myModalLabel').html('Please wait...');
-            $('#progressModal').modal({backdrop: "static", keyboard: false});
+            $('#progressModal').modal({backdrop: false, keyboard: false});
 }
         
 function closeModelDialog(){
@@ -346,7 +346,7 @@ function openErrorDialog(message){
     $('#errorModalButton').on('click', function(){
     	redirectPost('/sessiontimeout', {'currentMenu':currentMenu,'message':'from ajax'});
     });
-    $('#errorModal').modal({backdrop: "static", keyboard: false});
+    $('#errorModal').modal({backdrop: false, keyboard: false});
 }
 
 function getJSONValue(data, id){
@@ -395,5 +395,5 @@ function showAccountInfo(event){
     var message = '<div><ul>' + content + '</ul></div>';
     $('#infoModalLabel').html('Your roles:');
     $('#infoModalBody').html(message);
-    $('#infoModal').modal({backdrop: "static", keyboard: false});
+    $('#infoModal').modal({backdrop: false, keyboard: false});
 }
