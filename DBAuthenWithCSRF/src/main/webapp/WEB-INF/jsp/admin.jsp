@@ -58,15 +58,20 @@
 
             <ul class="nav">
                 <li class="active">
-                    <a id="admin/users" href="#">
+                    <a id="admin/users" href="#" onclick="showUsers(event);">
                         <i class="pe-7s-note2"></i>
                         User List
                     </a>
                 </li>
                 <li>
-                    <a id="admin/roles" href="#">
+                    <a id="admin/roles" href="#" onclick="showRoles(event);">
                         <i class="pe-7s-note"></i>
                         Role List
+                    </a>
+                </li>
+                <li>
+                    <a href="<%=request.getContextPath()%>/home">
+                        Return To Home
                     </a>
                 </li>
                 <!-- 
@@ -147,8 +152,8 @@
                 </p>
             </div>
         </footer>
-    </div>
-    
+    </div>   
+</div>
     <div class="modal fade" id="progressModal" role="dialog" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <!-- Modal content-->
@@ -179,7 +184,7 @@
                 <div class="modal-footer">
                     <!-- <button type="button" class="btn btn-default" 
                        data-dismiss="modal">Close            </button> -->
-                    <button type="button" class="btn btn-primary" id="errorModalButton">OK</button>
+                    <button type="button" class="btn btn-info" id="errorModalButton">OK</button>
                 </div>
              </div><!-- /.modal-content -->
          </div><!-- /.modal -->
@@ -236,7 +241,6 @@
              </div><!-- /.modal-content -->
          </div><!-- /.modal -->
     </div>
-</div>
 </sec:authorize>
 </body>
 

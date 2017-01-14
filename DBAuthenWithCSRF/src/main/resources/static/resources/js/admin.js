@@ -147,12 +147,13 @@ $(document).ready(function(){
 			                break;
         		    case "admin/roles":
 			    			hideError();
-			    			postAJAXRequest("/admin/" + "roles", {}, currentMenu, $("#content"));
+			    			postAJAXRequest("/admin/" + "roles/list", {}, currentMenu, $("#content"));
 		                    closeModelDialog();
 		                    break;
         		  }
         	  });
         		
+        	  /*
               $("#admin\\/users").click( function(e) {
             	  currentMenu="admin/users";
             	  $('#currentMenu').val(currentMenu);
@@ -180,9 +181,39 @@ $(document).ready(function(){
             	  if(lbd.misc.navbar_menu_visible == 1) $('.navbar-toggle').triggerHandler("click");
             	  return false; 
                   } );
-        	  
+        	  */
         	  if(currentMenu!="" && currentMenu!="home") $("#" + currentMenu.replace("/", "\\/")).triggerHandler("click");
 });
+
+function showUsers(e) {
+	  var target = $(e.target);
+	  currentMenu="admin/users";
+	  $('#currentMenu').val(currentMenu);
+	  e.preventDefault(); 
+	  
+	  $("li").removeClass("active");
+	  $(target).parent().addClass("active");
+	  renderTemplate($(target).attr("id"), {}, $("#content"));
+	  window.history.pushState(currentMenu, "users page", "/" + currentMenu);
+	  openModelDialog();
+	  if(lbd.misc.navbar_menu_visible == 1) $('.navbar-toggle').triggerHandler("click");
+	  return false; 
+}
+
+function showRoles(e) {
+	  var target = $(e.target);
+	  currentMenu="admin/roles";
+	  $('#currentMenu').val(currentMenu);
+	  e.preventDefault(); 
+	  
+	  $("li").removeClass("active");
+	  $(target).parent().addClass("active");
+	  renderTemplate($(target).attr("id"), {}, $("#content"));
+	  window.history.pushState(currentMenu, "roles page", "/" + currentMenu);
+	  openModelDialog();
+	  if(lbd.misc.navbar_menu_visible == 1) $('.navbar-toggle').triggerHandler("click");
+	  return false; 
+}
 
 function redirectPost(location, args){
 			var form = $('<form></form>');
@@ -209,7 +240,7 @@ function redirectPost(location, args){
 }
     
 function postAJAXRequest(url, data, template, target) {
-        	console.log("POST data: ", data);
+        	//console.log("POST data: ", data);
             return $.ajax({ url:url,
                             type: 'POST',
                             contentType: 'application/json; charset=utf-8',
@@ -319,7 +350,7 @@ function openModelDialog(){
             $(document).bind('contextmenu', disableEvent);
             
             $('#myModalLabel').html('Please wait...');
-            $('#progressModal').modal({backdrop: false, keyboard: false});
+            $('#progressModal').modal({backdrop: "static", keyboard: false});
 }
         
 function closeModelDialog(){
@@ -346,7 +377,7 @@ function openErrorDialog(message){
     $('#errorModalButton').on('click', function(){
     	redirectPost('/sessiontimeout', {'currentMenu':currentMenu,'message':'from ajax'});
     });
-    $('#errorModal').modal({backdrop: false, keyboard: false});
+    $('#errorModal').modal({backdrop: "static", keyboard: false});
 }
 
 function getJSONValue(data, id){
@@ -395,5 +426,6 @@ function showAccountInfo(event){
     var message = '<div><ul>' + content + '</ul></div>';
     $('#infoModalLabel').html('Your roles:');
     $('#infoModalBody').html(message);
-    $('#infoModal').modal({backdrop: false, keyboard: false});
+    $('#infoModal').modal({backdrop: "static", keyboard: false});
+    if(lbd.misc.navbar_menu_visible == 1) $('.navbar-toggle').triggerHandler("click");
 }

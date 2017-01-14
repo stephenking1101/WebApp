@@ -190,7 +190,7 @@
             $('#editModal').on('shown.bs.modal', function() {
             	$("#newName").focus();
               });
-            $('#editModal').modal({backdrop: false, keyboard: false});
+            $('#editModal').modal({backdrop: "static", keyboard: false});
         }
         
         function onEditButtonClick(event){
@@ -228,7 +228,7 @@
             $('#editModal').on('shown.bs.modal', function() {
                 $("#newPass").focus();
               });
-        	$('#editModal').modal({backdrop: false, keyboard: false});
+        	$('#editModal').modal({backdrop: "static", keyboard: false});
         }
         
         function onRemoveButtonClick(event){
