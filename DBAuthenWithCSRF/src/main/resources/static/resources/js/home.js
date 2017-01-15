@@ -102,7 +102,9 @@ $(document).ready(function(){
             	  e.preventDefault(); 
             	  $("li").removeClass("active");
             	  $(this).parent().addClass("active");
-            	  renderTemplate(this.id, {}, $("#content"));
+            	  if(!renderTemplate(this.id, {}, $("#content"))){
+            		  return false;
+            	  }
             	  window.history.pushState(currentMenu, "file upload page", "/" + currentMenu);
             	  
             	  //$('#fileForm').on('submit', uploadFiles);
@@ -211,11 +213,13 @@ function renderTemplate(template, data, target) {
                 });
                 //console.log(tmpl_string);
                 //Get the HTML from the template in the script tag and compile the template
+                if(tmpl_string == "") return false;
                 render.tmpl_cache[template] = Handlebars.compile(tmpl_string);
             }
 
             //console.log(data);
-            target.html(render.tmpl_cache[template](data)); 
+            target.html(render.tmpl_cache[template](data));
+            return true;
 }
         
 function disableEvent(e){

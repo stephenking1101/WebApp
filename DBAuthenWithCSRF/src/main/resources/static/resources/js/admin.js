@@ -193,7 +193,9 @@ function showUsers(e) {
 	  
 	  $("li").removeClass("active");
 	  $(target).parent().addClass("active");
-	  renderTemplate($(target).attr("id"), {}, $("#content"));
+	  if(!renderTemplate($(target).attr("id"), {}, $("#content"))){
+		  return false;
+	  }
 	  window.history.pushState(currentMenu, "users page", "/" + currentMenu);
 	  openModelDialog();
 	  if(lbd.misc.navbar_menu_visible == 1) $('.navbar-toggle').triggerHandler("click");
@@ -208,7 +210,9 @@ function showRoles(e) {
 	  
 	  $("li").removeClass("active");
 	  $(target).parent().addClass("active");
-	  renderTemplate($(target).attr("id"), {}, $("#content"));
+	  if(!renderTemplate($(target).attr("id"), {}, $("#content"))){
+		  return false;
+	  }
 	  window.history.pushState(currentMenu, "roles page", "/" + currentMenu);
 	  openModelDialog();
 	  if(lbd.misc.navbar_menu_visible == 1) $('.navbar-toggle').triggerHandler("click");
@@ -327,11 +331,13 @@ function renderTemplate(template, data, target) {
                 });
                 //console.log(tmpl_string);
                 //Get the HTML from the template in the script tag and compile the template
+                if(tmpl_string == "") return false;
                 render.tmpl_cache[template] = Handlebars.compile(tmpl_string);
             }
 
             //console.log(data);
-            target.html(render.tmpl_cache[template](data)); 
+            target.html(render.tmpl_cache[template](data));
+            return true;
 }
         
 function disableEvent(e){
