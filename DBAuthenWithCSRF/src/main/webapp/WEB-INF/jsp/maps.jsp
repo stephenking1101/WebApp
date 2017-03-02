@@ -127,25 +127,9 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a id="home" href="<%=request.getContextPath()%>/home">HOME</a></li>
-            <sec:authorize access="hasAnyRole('ROLE_POWERUSER', 'ROLE_USER')">
-            <li><a id="file" href="#">FILE</a></li>
-            </sec:authorize>
-            <li class="active"><a id="maps" href="<%=request.getContextPath()%>/maps">MAP</a></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">INFO <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><a href="#" onclick="showContact(event);">CONTACT US</a></li>
-                <li role="separator" class="divider"></li>
-                <li class="dropdown-header">More</li>
-                <li><a href="#" onclick="showCompany(event);">ABOUT</a></li>
-              </ul>
-            </li>
+            <li><a id="maps" href="javascript:window.history.back();">&#171;BACK</a></li>
           </ul>
 		  <ul class="nav navbar-nav navbar-right">
-		    <sec:authorize access="hasRole('ROLE_ADMIN')">
-		    <li><a href="#" data-toggle="modal" data-target="#login-modal">ADMIN</a></li>
-		    </sec:authorize>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">${username} <span class="caret"></span></a>
               <ul class="dropdown-menu">
