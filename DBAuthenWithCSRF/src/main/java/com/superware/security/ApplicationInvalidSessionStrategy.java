@@ -78,7 +78,7 @@ public class ApplicationInvalidSessionStrategy implements InvalidSessionStrategy
 	
 	private boolean isAjax(HttpServletRequest request){
 		String header = request.getHeader("X-Requested-With");
-		System.out.println(header);
+		//System.out.println(header);
 		return "XMLHttpRequest".equals(header);
 	}
 }
