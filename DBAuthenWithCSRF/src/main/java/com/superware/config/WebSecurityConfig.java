@@ -62,6 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.antMatchers("/loginfailed").permitAll()
 			.antMatchers("/sessiontimeout").permitAll()
 			.antMatchers("/403").permitAll()
+			.antMatchers("/error").permitAll()
 			//.antMatchers("/").permitAll().and().authorizeRequests().antMatchers("/console/**").access("hasRole('ROLE_ADMIN')")
 			.anyRequest().authenticated()
 			.and()
