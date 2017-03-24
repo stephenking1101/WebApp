@@ -162,7 +162,7 @@
 		   <!-- 轮播（Carousel）项目 -->
 	       <div class="carousel-inner">
 		      <div class="item active">
-		         <img src="<%=request.getContextPath()%>/resources/img/slide1.jpg" alt="First slide">
+		         <img class="img-responsive" src="<%=request.getContextPath()%>/resources/img/slide1.jpg" alt="First slide">
 		         <div class="carousel-caption">
 			         <h3>File Upload</h3>
 			         <p>Excel upload feature for reporting</p>
@@ -170,11 +170,11 @@
 		         </div>
 		      </div>
 		      <div class="item">
-		         <img src="<%=request.getContextPath()%>/resources/img/slide2.jpg" alt="Second slide">
+		         <img class="img-responsive" src="<%=request.getContextPath()%>/resources/img/slide2.jpg" alt="Second slide">
 		         <div class="carousel-caption">Dummy标题</div>
 		      </div>
 		      <div class="item">
-		         <img src="<%=request.getContextPath()%>/resources/img/slide3.jpg" alt="Third slide">
+		         <img class="img-responsive" src="<%=request.getContextPath()%>/resources/img/slide3.jpg" alt="Third slide">
 		         <div class="carousel-caption">
 		             <h3>Made with love for a better web</h3>
                      <p><a class="btn btn-lg btn-primary" href="#" role="button" onclick="showContact(event);">Contact Us</a></p>

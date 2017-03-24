@@ -1,9 +1,9 @@
 $(function() {
         BrowserDetect.init();
-		console.log("You are using " + BrowserDetect.browser + " with version " + BrowserDetect.version + ".");
+		//console.log("You are using " + BrowserDetect.browser + " with version " + BrowserDetect.version + ".");
 		if(BrowserDetect.browser == "Explorer" && BrowserDetect.version < 9){
-			console.log("In order to use all features in the website, we suggest you to upgrade your browser.");
-			console.log("Supported browser and version are: Internet Explorer 9 or above, Chrome, Firefox, Safari and Opera");
+			//console.log("In order to use all features in the website, we suggest you to upgrade your browser.");
+			//console.log("Supported browser and version are: Internet Explorer 9 or above, Chrome, Firefox, Safari and Opera");
 		}
     	 
         if (localStorage.chkbx && localStorage.chkbx != '') {
