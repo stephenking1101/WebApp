@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -18,6 +19,7 @@ public class GlobalDefaultExceptionHandler {
 	public static final String DEFAULT_ERROR_VIEW = "error";
 	
 	@ExceptionHandler(ApplicationException.class)
+	@ResponseStatus(value=HttpStatus.PRECONDITION_FAILED)
 	public @ResponseBody Map<Object, Object> handleApplicationException(HttpServletRequest req, Exception ex) {
 		Map<Object, Object> result = new HashMap<Object, Object>();
 		result.put("error", ex.getMessage());
@@ -26,7 +28,11 @@ public class GlobalDefaultExceptionHandler {
 	} 
 	 
 	@ExceptionHandler(value = Exception.class)
+	@ResponseStatus(value=HttpStatus.INTERNAL_SERVER_ERROR)
 	public ModelAndView defaultErrorHandler(HttpServletRequest req, Exception e) throws Exception {
+		if (isAjax(req)){
+			throw e;
+		}
 	    // If the exception is annotated with @ResponseStatus rethrow it and let
 	    // the framework handle it.
 	    // AnnotationUtils is a Spring Framework utility class.
@@ -42,4 +48,9 @@ public class GlobalDefaultExceptionHandler {
 	    return mav;
 	}
 	
+	private boolean isAjax(HttpServletRequest request){
+		String header = request.getHeader("X-Requested-With");
+		//System.out.println(header);
+		return "XMLHttpRequest".equals(header);
+	}
 }

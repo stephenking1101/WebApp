@@ -71,6 +71,7 @@
                 </li>
                 <li>
                     <a href="<%=request.getContextPath()%>/home">
+		    	<i class="pe-7s-home"></i>
                         Return To Home
                     </a>
                 </li>
@@ -108,6 +109,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
                               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="pe-7s-id"></i>
                                     ${username}
                                     <b class="caret"></b>
                               </a>
@@ -163,7 +165,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                      <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                       </div>
                     </div>
                 </div>

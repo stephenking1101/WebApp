@@ -4,6 +4,7 @@ $(function() {
 		if(BrowserDetect.browser == "Explorer" && BrowserDetect.version < 9){
 			//console.log("In order to use all features in the website, we suggest you to upgrade your browser.");
 			//console.log("Supported browser and version are: Internet Explorer 9 or above, Chrome, Firefox, Safari and Opera");
+			$('#advice').show();
 		}
     	 
         if (localStorage.chkbx && localStorage.chkbx != '') {

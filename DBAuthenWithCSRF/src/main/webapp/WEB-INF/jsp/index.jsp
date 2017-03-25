@@ -40,6 +40,12 @@
   <body>
    
     <div class="container">
+      <div id="advice" hidden="hidden">
+		<div class="alert alert-warning">
+		    <strong>提示！</strong>你正在使用旧版本浏览器。 为了能够正常使用本系统所有功能，建议更新你的浏览器。<br>
+		    本系统支持Internet Explorer 9或以上, Chrome, Firefox, Safari 以及 Opera 等浏览器。
+		</div>
+      </div>
       <div id="error">
         <c:if test="${not empty error}">
           <div class="alert alert-danger alert-dismissible" role="alert">
@@ -75,7 +81,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="progress">
-                      <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                      <div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                       </div>
                     </div>
                 </div>

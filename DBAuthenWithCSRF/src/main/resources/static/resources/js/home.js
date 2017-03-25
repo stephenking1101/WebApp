@@ -262,6 +262,7 @@ function openErrorDialog(message){
     
     $('#errorModalLabel').html('ERROR');
     $('#errorModalBody').html(message);
+    $("#errorModalButton").off("click");
     $('#errorModalButton').on('click', function(){
     	redirectPost('/sessiontimeout', {'currentMenu':currentMenu,'message':'from ajax'});
     	$('#errorModal').modal('hide');
@@ -331,6 +332,10 @@ function onAdminModalLogin() {
             } else {*/
             	$("#adminError").hide();
             	redirectPost('/admin', {});
+            	$("#pass").removeAttr("disabled");  
+            	//$("#user").removeAttr("disabled");
+                $("#loginButton").removeAttr("disabled");
+                $("#loginButton").text("Login");
             //}
         },
         error: function(xhr,status,error){

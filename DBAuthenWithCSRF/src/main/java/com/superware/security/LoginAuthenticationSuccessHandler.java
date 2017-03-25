@@ -28,7 +28,7 @@ public class LoginAuthenticationSuccessHandler extends
 		}
 
 		String targetUrl = (String) request.getSession().getAttribute("currentMenu");
-		System.out.println("Direct to page :" + targetUrl);
+		//System.out.println("Direct to page :" + targetUrl);
 		
 		if (!StringUtils.hasText(targetUrl) || targetUrl.startsWith("/resources") || targetUrl.startsWith("/admin")) {
 			targetUrl = getDefaultTargetUrl();

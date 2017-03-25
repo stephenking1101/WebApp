@@ -27,9 +27,9 @@ public class ApplicationInvalidSessionStrategy implements InvalidSessionStrategy
 	public void onInvalidSessionDetected(HttpServletRequest request, HttpServletResponse response)
 			throws IOException, ServletException {
 		String resourcePath = new UrlPathHelper().getPathWithinApplication(request);
-		System.out.println("Session timeout when access: " + resourcePath);
+		//System.out.println("Session timeout when access: " + resourcePath);
 		String currentMenu = request.getParameter("currentMenu");
-		System.out.println("Current menu is: " + currentMenu);
+		//System.out.println("Current menu is: " + currentMenu);
 		if(StringUtils.hasText(currentMenu)){
 			resourcePath = "/" + currentMenu;
 		}
@@ -42,7 +42,7 @@ public class ApplicationInvalidSessionStrategy implements InvalidSessionStrategy
 			}
 		}
 		if(StringUtils.hasText(time)){
-			System.out.println("Last login time is : " + URLDecoder.decode(time, "UTF-8"));
+			//System.out.println("Last login time is : " + URLDecoder.decode(time, "UTF-8"));
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			try {
 				lastTime = dateFormat.parse(URLDecoder.decode(time, "UTF-8"));
@@ -65,7 +65,7 @@ public class ApplicationInvalidSessionStrategy implements InvalidSessionStrategy
 					session.setAttribute("currentMenu", resourcePath);
 					long diff = new Date().getTime() - lastTime.getTime();
 					long diffHours = diff/(60 * 60 * 1000);
-					System.out.println("Last login is " + diffHours + " hours ago");
+					//System.out.println("Last login is " + diffHours + " hours ago");
 					if (diffHours > 12){
 						redirectStrategy.sendRedirect(request, response, "/login");
 					} else {

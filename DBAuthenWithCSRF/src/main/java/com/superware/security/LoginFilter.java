@@ -116,7 +116,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
 	    final HttpServletRequest request = (HttpServletRequest) req;
 	    final HttpServletResponse response = (HttpServletResponse) res;
 	    String resourcePath = new UrlPathHelper().getPathWithinApplication(request);
-        System.out.println("resourcePath:" + resourcePath);
+        //System.out.println("resourcePath:" + resourcePath);
 	    if(request.getMethod().equals(POST)) {
 	      // If the incoming request is a POST, then we send it up
 	      // to the AbstractAuthenticationProcessingFilter.
