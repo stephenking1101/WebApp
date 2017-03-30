@@ -11,7 +11,7 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<!-- Custom styles for this template -->
 	<link href="css/offcanvas.min.css" rel="stylesheet">
-	<link href="css/templatemo_style.min.css" rel="stylesheet" type="text/css">
+	<link href="css/templatemo_style.css" rel="stylesheet" type="text/css">
 
 	</head>
 	<body>
@@ -35,23 +35,26 @@
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
+						<li class="dropdown">
+			              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">INFO <span class="caret"></span></a>
+			              <ul class="dropdown-menu">
+			                <li><a href="#" onclick="showContact(event);">CONTACT US</a></li>
+			                <li role="separator" class="divider"></li>
+			                <li class="dropdown-header">More</li>
+			                <li><a href="#" onclick="showCompany(event);">ABOUT</a></li>
+			              </ul>
+			            </li>
 						<li><a href="#website_templates">Web Templates</a></li>
                         <li><a href="#mini_templates">Mini Templates</a></li>
 						<li><a href="#flash_templates">Flash Templates</a></li>
 						<li><a href="contact.html">Contact</a></li>
-					</ul>
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-default">Go</button>
-					</form>					
+					</ul>			
 				</div><!-- /.navbar-collapse -->
 			</nav>
 		</header>
 		<div class="container" id="home">
 			<div class="row row-offcanvas row-offcanvas-left">
-				<div class="col col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">	
+				<div class="col col-xs-0 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">	
                 			
 					<div class="sidebar-nav">
                     
@@ -91,14 +94,11 @@
 				</div> <!-- col sidebar -->
                 
 				<div class="col col-xs-12 col-sm-9">
-					<p class="pull-left visible-xs">
-						<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-					</p>
                     
                     <section class="row" id="website_templates">				
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<h3>Website Templates</h3>
+								<h3>Smart Robot Soldering Machine</h3>
 							</div>
 						</div>
 						<div class="row">
@@ -182,9 +182,8 @@
 		<!-- Bootstrap core JavaScript
 		================================================== -->
 		<!-- Placed at the end of the document so the pages load faster -->
-		<script src="js/jquery.js"></script>
+		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-		<script src="js/offcanvas.js"></script>
 		<script src="js/masonry.pkgd.min.js"></script>
 		<script src="js/imagesloaded.pkgd.min.js"></script>	     
 		<script src="js/bootbox.min.js"></script>

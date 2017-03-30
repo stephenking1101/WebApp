@@ -35,12 +35,12 @@ footer {
 
   .row-offcanvas-right
   .sidebar-offcanvas {
-    right: -50%; /* 6 columns */
+    right: -100%; /* 6 columns */
   }
 
   .row-offcanvas-left
   .sidebar-offcanvas {
-    left: -50%; /* 6 columns */
+    left: -100%; /* 6 columns */
   }
 
   .row-offcanvas-right.active {

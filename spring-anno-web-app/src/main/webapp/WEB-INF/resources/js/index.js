@@ -1,18 +1,26 @@
 $(document).ready(function(){
-	init_masonry();
-	$.getJSON("data/product.json", {}, function(response,status,xhr) {
-		alert("JSON Data: " + json.users[3].name);
-	    console.log(json); 
-	    var data = eval("(" +json + ")");
-	    renderTemplate("products", json, "flash_templates");
-	    console.log("why"); 
-	    $.ajax({
-	    	  url: "data/product.json",
-	    	  data: {},
-	    	  success: alert,
-	    	  dataType: json
-	    	});
-	});
+	$.ajax({
+   	    url: 'data/product.json',
+	   	type: 'GET',
+	    contentType: 'application/json; charset=utf-8',
+	    dataType: 'json',
+	    //data: JSON.stringify({}),
+	    success: function(result,status,xhr){
+	        if(renderTemplate("products", result, $("#flash_templates"))){
+		        init_masonry();	
+	        }
+	    },
+	    error: function(xhr,status,error){
+            var errorMessage = getJSONValue(xhr.responseJSON, "error");
+            var errorMessageCont = getJSONValue(xhr.responseJSON, "message");
+            if(errorMessageCont){
+                openErrorBootBox(errorMessageCont);   
+            }else if(errorMessage){
+                openErrorBootBox(errorMessage);
+            }
+	    },
+	    async:false
+   	});
 });
 
 function init_masonry(){
@@ -20,8 +28,9 @@ function init_masonry(){
 	$container.imagesLoaded( function(){
 		$container.masonry({
 			itemSelector : '.item',
-			"gutter": 18,
-			isFitWidth: true
+			gutter: 18,
+			originLeft: true,
+			fitWidth: true
 		});
 	});
 }
@@ -32,8 +41,9 @@ function renderTemplate(template, data, target) {
         render.tmpl_cache = {};
     }
     if ( !render.tmpl_cache[template] ) {
+    	var pathArray = window.location.pathname.split( '/' );
         var tmpl_url = window.location.protocol + "//" + window.location.host + '/template' + '/' + template + '.html';
-
+        if(pathArray.length > 2) tmpl_url = window.location.protocol + "//" + window.location.host + '/' + pathArray[1] + '/template' + '/' + template + '.html';
         var tmpl_string="";
         $.ajax({
             url: tmpl_url,
@@ -76,11 +86,13 @@ function openErrorBootBox(message){
 
 function getJSONValue(data, id){
 	var result = "";
-	$.each(data, function(key,value){
-		if(key == id){
-			result = value;
-		}
-	});
+	if(data){
+		$.each(data, function(key,value){
+			if(key == id){
+				result = value;
+			}
+		});
+	}
 
 	return result;
 }

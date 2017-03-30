@@ -46,6 +46,20 @@ ul.sidebar_menu { padding: 4px 0px; }
 	background-color: #4BC1DD; 
 }
 
+.dropdown-menu { background-color: #96BA5A; border-color: #e7e7e7; margin: 0 auto; border-radius: 0px; border: none; font-weight: bold;}
+.dropdown-menu > .active > a, 
+.dropdown-menu > .active > a:hover, 
+.dropdown-menu > .active > a:focus {
+    color: white;
+    background-color: #4BC1DD;
+}
+
+.dropdown-menu > li > a { color: white; font-weight: bold;}
+.dropdown-menu > li > a:hover { 
+    color: black;
+    background-color: #4BC1DD; 
+}
+
 #home h3{ margin-left: 20px; }
 #home .btn { margin-left: 20px; }
 
