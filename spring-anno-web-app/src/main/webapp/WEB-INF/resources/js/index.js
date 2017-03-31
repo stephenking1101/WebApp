@@ -21,6 +21,12 @@ $(document).ready(function(){
 	    },
 	    async:false
    	});
+	
+	$("#navbar .nav a:not(.dropdown-toggle)").on('click',function(){
+		if($('.navbar-toggle').css('display') != 'none'){
+			$('.navbar-toggle').trigger('click');
+		}
+	});
 });
 
 function init_masonry(){

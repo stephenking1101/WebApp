@@ -104,6 +104,8 @@ ul.sidebar_menu { padding: 4px 0px; }
 
 @media (max-width: 767px) {
 	.sidebar-nav { padding-left: 15px; padding-right: 15px;	}
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a { color: white; font-weight: bold;}
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover { color: black; background-color: #4BC1DD;}
 }
 
 /* Wrapper */
