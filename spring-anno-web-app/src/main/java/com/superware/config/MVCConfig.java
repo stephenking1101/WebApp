@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({ "com.superware.controllers" })
+@ComponentScan({ "com.superware.controllers", "com.superware.services.impl" })
 public class MVCConfig extends WebMvcConfigurerAdapter {
     
     @Bean
