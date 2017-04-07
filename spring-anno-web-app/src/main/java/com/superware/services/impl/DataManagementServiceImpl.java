@@ -18,6 +18,11 @@ public class DataManagementServiceImpl implements DataManagementService{
 	@Override
 	@Cacheable(value = "menus",key = "\"menu_all\"")
 	public List<Menu> getAllMenus() throws ApplicationException {
+		Menu menu = new Menu();
+		menu.setName("test");
+		menu.setParent("parent");
+		menu.setType("type");
+		menuRepository.save(menu);
 		return (List<Menu>) menuRepository.findAll();
 	}
 	

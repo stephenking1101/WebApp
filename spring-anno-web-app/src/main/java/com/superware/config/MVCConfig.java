@@ -26,5 +26,6 @@ public class MVCConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations("/WEB-INF/resources/");
+        //registry.addResourceHandler("/jsons/**").addResourceLocations("file:C:/temp/logs/");
     }
 }
