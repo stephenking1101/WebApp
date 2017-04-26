@@ -62,7 +62,7 @@ $(document).ready(function(){
               var header = $("meta[name='_csrf_header']").attr("content");
               var parameterName = $("meta[name='_csrf_parameterName']").attr("content");
               var headerJson = {'X-Requested-With':'XMLHttpRequest'};
-              headerJson[header] = token;
+              if(header && token) headerJson[header] = token;
 			  //Default header added by jQuery
 			  $.ajaxSetup({
 			  	headers: headerJson
@@ -126,9 +126,11 @@ function redirectPost(location, args){
             var token = $("meta[name='_csrf']").attr("content");
             var parameterName = $("meta[name='_csrf_parameterName']").attr("content");
             var csrf = $('<input></input>');
-            csrf.attr("type", "hidden");
-            csrf.attr("name", parameterName);
-            csrf.attr("value", token);
+            if(parameterName && token){
+            	csrf.attr("type", "hidden");
+                csrf.attr("name", parameterName);
+                csrf.attr("value", token);
+            }
             form.attr("method", "post");
             form.attr("action", location);
             //console.log( "redirectPost" );
