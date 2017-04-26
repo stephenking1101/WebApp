@@ -1,2 +1,4 @@
-encoding: UTF-8
-baseurl: /WebApp
+# Setup
+title:               WebApp
+encoding: 			 UTF-8
+baseurl: 			 /WebApp
