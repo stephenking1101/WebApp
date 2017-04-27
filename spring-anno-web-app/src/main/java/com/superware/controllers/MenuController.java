@@ -67,7 +67,7 @@ public class MenuController {
 		String jsonInString = gson.toJson(menus);
 		logger.debug(jsonInString);
 		
-		try (Reader reader = new FileReader("C:\\temp\\staff1.json")) {
+		try (Reader reader = new FileReader(filePath+"staff.json")) {
 			// 1. JSON to Java object, read it from a file.
 			Menu staff = gson.fromJson(reader, Menu.class);
 			logger.debug(staff.getName());

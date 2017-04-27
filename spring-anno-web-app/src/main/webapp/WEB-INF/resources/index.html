@@ -11,7 +11,7 @@
 	<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<!-- Custom styles for this template -->
 	<link href="css/offcanvas.min.css" rel="stylesheet">
-	<link href="css/templatemo_style.min.css" rel="stylesheet" type="text/css">
+	<link href="css/templatemo_style.css" rel="stylesheet" type="text/css">
 
 	</head>
 	<body>
@@ -22,7 +22,7 @@
                     <!-- <a href="#" class="row_top" target="_blank"><img src="images/templatemo_top.png"/></a> -->
 				</div>
 			</div>
-			<nav class="navbar navbar-default" role="navigation"> 
+			<nav id="navbar" class="navbar navbar-default" role="navigation"> 
 				<div class="navbar-header">
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
 						<span class="sr-only">Toggle navigation</span>
@@ -35,33 +35,35 @@
 				<div class="collapse navbar-collapse navbar-ex1-collapse">
 					<ul class="nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
+						<li class="dropdown">
+			              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">INFO <span class="caret"></span></a>
+			              <ul class="dropdown-menu">
+			                <li><a href="#" >CONTACT US</a></li>
+			                <li role="separator" class="divider"></li>
+			                <li class="dropdown-header">More</li>
+			                <li><a href="#" >ABOUT</a></li>
+			              </ul>
+			            </li>
 						<li><a href="#website_templates">Web Templates</a></li>
-                        <li><a href="#mini_templates">Mini Templates</a></li>
 						<li><a href="#flash_templates">Flash Templates</a></li>
 						<li><a href="contact.html">Contact</a></li>
-					</ul>
-					<form class="navbar-form navbar-right" role="search">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Search">
-						</div>
-						<button type="submit" class="btn btn-default">Go</button>
-					</form>					
+					</ul>			
 				</div><!-- /.navbar-collapse -->
 			</nav>
 		</header>
 		<div class="container" id="home">
 			<div class="row row-offcanvas row-offcanvas-left">
-				<div class="col col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">	
+				<div class="col col-xs-0 col-sm-3 sidebar-offcanvas" id="sidebar" role="navigation">	
                 			
 					<div class="sidebar-nav">
                     
-						<h4>Our Sponsors</h4>
+						<h4>Our Products</h4>
 						<ul class="sidebar_menu">
-                        	<li><a  href="#" target="_blank">website templates</a></li>
-							<li><a href="#"  target="_blank">flash templates</a></li>
-                            <li><a href="#"  target="_blank">koflash gallery</a></li>
-							<li><a href="#"  target="_blank">templatemo site</a></li>
-                            <li><a href="#"  target="_blank">flash stuffs</a></li>
+                        	<li><a href="#">Smart Robot Soldering Machine</a></li>
+							<li><a href="#">flash templates</a></li>
+                            <li><a href="#">koflash gallery</a></li>
+							<li><a href="#">templatemo site</a></li>
+                            <li><a href="#">flash stuffs</a></li>
 						</ul>
                         
 						<hr>
@@ -91,14 +93,11 @@
 				</div> <!-- col sidebar -->
                 
 				<div class="col col-xs-12 col-sm-9">
-					<p class="pull-left visible-xs">
-						<button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-					</p>
                     
                     <section class="row" id="website_templates">				
 						<div class="row">
 							<div class="col-xs-12 col-md-12">
-								<h3>Website Templates</h3>
+								<h3>Smart Robot Soldering Machine</h3>
 							</div>
 						</div>
 						<div class="row">
@@ -165,146 +164,9 @@
 						  </div>
 						</div>          
 					</section> <!-- website templates -->
+					<section class="row" id="flash_templates"> 
+					</section>
                     <div class="copyrights">Collect from <a href="#" >Website Template</a></div>
-					<section class="row" id="mini_templates">				
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<h3>Mini Templates</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<div class="item_container">
-									<div class="item">
-										<a  href="#preview/templatemo_378_dragonfly"  class="thumbnail">
-											<img src="images/templatemo_378_dragonfly.jpg" alt="378 dragonfly">
-											<p>Dragonfly</p>
-										</a>
-									</div>		          
-									<div class="item">
-										<a  href="#preview/templatemo_375_tech_layer"  class="thumbnail">
-											<img src="images/templatemo_375_tech_layer.jpg" alt="375 tech layer">
-											<p>Tech Layer</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#preview/templatemo_371_gallery"  class="thumbnail">
-											<img src="images/templatemo_371_gallery.jpg" alt="371 gallery">
-											<p>Gallery</p>
-										</a>
-									</div>                  
-									<div class="item">
-										<a  href="#preview/templatemo_370_focus"  class="thumbnail">
-											<img src="images/templatemo_370_focus.jpg" alt="370 focus">
-											<p>Focus</p>
-										</a>
-									</div>
-                                    
-									<div class="item">
-										<a  href="#preview/templatemo_368_connect"  class="thumbnail">
-											<img src="images/templatemo_368_connect.jpg" alt="368 connect">
-											<p>Connect</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#preview/templatemo_364_aqua"  class="thumbnail">
-											<img src="images/templatemo_364_aqua.jpg" alt="364 aqua">
-											<p>Aqua Theme</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#preview/templatemo_363_metro"  class="thumbnail">
-											<img src="images/templatemo_363_metro.jpg" alt="363 metro">
-											<p>Metro</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#preview/templatemo_359_singular"  class="thumbnail">
-											<img src="images/templatemo_359_singular.jpg" alt="359 singular">
-											<p>Singular</p>
-										</a>
-									</div>
-                                    
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<a  href="#"  
-                                	class="btn btn-primary" role="button">View More</a>
-							</div>
-						</div>          
-					</section> <!-- mini templates -->
-                    
-					<section class="row" id="flash_templates">				
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<h3>Flash Templates</h3>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-								<div class="item_container">
-									<div class="item">
-										<a  href="#/preview/flashmo_280_dynamic_stack"  class="thumbnail">
-											<img src="images/flashmo_280_dynamic_stack.jpg" alt="Dynamic Stack">
-											<p>Dynamic Stack</p>
-										</a>
-									</div>		          
-									<div class="item">
-										<a  href="#/preview/flashmo_279_stylish_gallery"  class="thumbnail">
-											<img src="images/flashmo_279_stylish_gallery.jpg" alt="Stylish Gallery">
-											<p>Stylish Gallery</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_276_new_era"  class="thumbnail">
-											<img src="images/flashmo_276_new_era.jpg" alt="New Era">
-											<p>New Era</p>
-										</a>
-									</div>                  
-									<div class="item">
-										<a  href="#/preview/flashmo_273_alternative"  class="thumbnail">
-											<img src="images/flashmo_273_alternative.jpg" alt="Alternative">
-                                            <p class="hideOverflow"><abbr title="Alternative Image Gallery">Alternative Image Gallery</abbr></p>
-										</a>
-									</div>
-                                    
-									<div class="item">
-										<a  href="#/preview/flashmo_272_3d_zoom_gallery"  class="thumbnail">
-											<img src="images/flashmo_272_3d_zoom_gallery.jpg" alt="Zoom Gallery">
-											<p>Zoom Gallery</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_269_dragonfly"  class="thumbnail">
-											<img src="images/flashmo_269_dragonfly.jpg" alt="Dragonfly">
-											<p>Dragonfly</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_267_circular_pink"  class="thumbnail">
-											<img src="images/flashmo_267_circular_pink.jpg" alt="Circular Pink">
-											<p>Circular Pink</p>
-										</a>
-									</div>
-									<div class="item">
-										<a  href="#/preview/flashmo_258_dark_focus"  class="thumbnail">
-											<img src="images/flashmo_258_dark_focus.jpg" alt="Dark Focus">
-											<p>Dark Focus</p>
-										</a>
-									</div>
-                                    
-								</div>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-xs-12 col-md-12">
-                                <a  href="#"  
-                                	class="btn btn-primary" role="button">View More</a>
-							</div>
-						</div>          
-					</section> <!-- flash gallery -->
 				</div> <!-- col -->
 			</div>  <!-- row -->   
 		</div> <!-- container -->
@@ -321,9 +183,8 @@
 		<!-- Placed at the end of the document so the pages load faster -->
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
-		<script src="js/offcanvas.js"></script>
 		<script src="js/masonry.pkgd.min.js"></script>
-		<script src="js/imagesloaded.pkgd.min.js"></script>
+		<script src="js/imagesloaded.pkgd.min.js"></script>	     
 		<script src="js/bootbox.min.js"></script>
 		<script src="js/handlebars.js"></script>
 		<script src="js/index.js"></script>
