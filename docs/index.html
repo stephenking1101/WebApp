@@ -11,12 +11,14 @@ title: Web Application Catalog
                                    maximum-scale=1.0, 
                                    user-scalable=no">
 	<title>Web Application Catalog</title>
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">  
+	<link rel="stylesheet" href="{{ site.url }}{{ site.baseurl }}/assets/css/bootstrap.min.css">  
 </head>
 <body>
     <header></header>
     <div class="container">
-        <h1>Web Application Catalog {{ site.baseurl }} + {{ site.url }} + {{ site.github.url }}</h1>
+        <a href="{{ site.github.url }}" class="list-group-item active">
+			<h1>Web Application Catalog</h1>
+		</a>
         <div class="row" >
             <div class="col-xs-6 col-md-6 list-group">
 			    <a href="#" class="list-group-item active">
