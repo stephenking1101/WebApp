@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../assets/css/bootstrap.min.css">
+  <style>
+  body {
+      position: relative;
+  }
+  .affix {
+      top:0;
+      width: 100%;
+      z-index: 9999 !important;
+  }
+  .navbar {
+      margin-bottom: 0px;
+  }
+
+  .affix ~ .container-fluid {
+     position: relative;
+     top: 50px;
+  }
+
+  .example {padding-top:50px;height:500px;}
+  </style>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
+
+<div class="container-fluid" style="background-color:#00bcd4;color:#fff;height:200px;">
+  <h1>Scrollspy & Affix Example</h1>
+  <h3>Fixed navbar on scroll</h3>
+  <p>Scroll this page to see how the navbar behaves with data-spy="affix" and data-spy="scrollspy".</p>
+  <p>The navbar is attached to the top of the page after you have scrolled a specified amount of pixels, and the links in the navbar are automatically updated based on scroll position.</p>
+</div>
+
+<nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="197">
+  <div class="container-fluid">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#">WebSiteName</a>
+    </div>
+    <div>
+      <div class="collapse navbar-collapse" id="myNavbar">
+        <ul class="nav navbar-nav">
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Carousel <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="carousel/index.html">Example</a></li>
+              <li hidden><a href="#Carousel">Example</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Cover <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="cover/index.html">Example</a></li>
+              <li hidden><a href="#Cover">Example</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Dashboard <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="dashboard/index.html">Example</a></li>
+              <li hidden><a href="#Dashboard">Example</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Jumbotron <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="jumbotron/index.html">Example</a></li>
+              <li hidden><a href="#Jumbotron">Example</a></li>
+            </ul>
+          </li>
+          <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Offcanvas <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="offcanvas/index.html">Example</a></li>
+              <li hidden><a href="#Offcanvas">Example</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div id="advice" hidden="hidden">
+		<div class="alert alert-warning">
+		    <strong>提示！</strong>你正在使用旧版本浏览器。 为了能够正常使用本系统所有功能，建议更新你的浏览器。<br>
+		    本系统支持Internet Explorer 9或以上, Chrome, Firefox, Safari 以及 Opera 等浏览器。
+		</div>
+</div>
+<div id="Carousel" class="container-fluid example">
+  <h1>Carousel</h1>
+  <p>The Carousel plugin is a component for cycling through elements, like a carousel (slideshow).</p>
+  <p class="alert-warning"><strong>Note:</strong> Carousels are not supported properly in Internet Explorer 9 and earlier (because they use CSS3 transitions and animations to achieve the slide effect).</p>
+</div>
+<div id="Cover" class="container-fluid example">
+  <h1>Cover</h1>
+  <p>Cover is a one-page template for building simple and beautiful home pages.</p>
+</div>
+<div id="Dashboard" class="container-fluid example">
+  <h1>Dashboard</h1>
+  <p>Dashboard and table exmple</p>
+  <p>Try to scroll this section and look at the navigation bar while scrolling! Try to scroll this section and look at the navigation bar while scrolling!</p>
+</div>
+<div id="Jumbotron" class="container-fluid example">
+  <h1>Jumbotron</h1>
+  <p>A jumbotron indicates a big box for calling extra attention to some special content or information.</p>
+  <p>A jumbotron is displayed as a grey box with rounded corners. It also enlarges the font sizes of the text inside it.</p>
+  <p class="alert-warning"><strong>Tip:</strong> Inside a jumbotron you can put nearly any valid HTML, including other Bootstrap elements/classes.</p>
+</div>
+<div id="Offcanvas" class="container-fluid example">
+  <h1>Offcanvas</h1>
+  <p>This is an example to show the potential of an offcanvas layout pattern in Bootstrap.</p>
+  <p>Try some responsive-range viewport sizes to see it in action.</p>
+</div>
+
+	<script>window.jQuery || document.write('<script src="../../assets/js/jquery.min.js"><\/script>')</script>
+    <script src="../../assets/js/bootstrap.min.js"></script>
+    <script>
+        $(function() {
+            BrowserDetect.init();
+            //console.log("You are using " + BrowserDetect.browser + " with version " + BrowserDetect.version + ".");
+            if(BrowserDetect.browser == "Explorer" && BrowserDetect.version < 9){
+                //console.log("In order to use all features in the website, we suggest you to upgrade your browser.");
+                //console.log("Supported browser and version are: Internet Explorer 9 or above, Chrome, Firefox, Safari and Opera");
+                $('#advice').show();
+            }
+        });
+
+        var BrowserDetect = {
+            init: function () {
+                this.browser = this.searchString(this.dataBrowser) || "Other";
+                this.version = this.searchVersion(navigator.userAgent) || this.searchVersion(navigator.appVersion) || "Unknown";
+            },
+            searchString: function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var dataString = data[i].string;
+                    this.versionSearchString = data[i].subString;
+
+                    if (dataString.indexOf(data[i].subString) !== -1) {
+                        return data[i].identity;
+                    }
+                }
+            },
+            searchVersion: function (dataString) {
+                var index = dataString.indexOf(this.versionSearchString);
+                if (index === -1) {
+                    return;
+                }
+
+                var rv = dataString.indexOf("rv:");
+                if (this.versionSearchString === "Trident" && rv !== -1) {
+                    return parseFloat(dataString.substring(rv + 3));
+                } else {
+                    return parseFloat(dataString.substring(index + this.versionSearchString.length + 1));
+                }
+            },
+            dataBrowser: [
+                {string: navigator.userAgent, subString: "Edge", identity: "MS Edge"},
+                {string: navigator.userAgent, subString: "MSIE", identity: "Explorer"},
+                {string: navigator.userAgent, subString: "Trident", identity: "Explorer"},
+                {string: navigator.userAgent, subString: "Firefox", identity: "Firefox"},
+                {string: navigator.userAgent, subString: "Opera", identity: "Opera"},
+                {string: navigator.userAgent, subString: "OPR", identity: "Opera"},
+                {string: navigator.userAgent, subString: "Chrome", identity: "Chrome"},
+                {string: navigator.userAgent, subString: "Safari", identity: "Safari"}
+            ]
+        };
+    </script>
+</body>
+</html>
