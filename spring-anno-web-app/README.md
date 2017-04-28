@@ -1,120 +1,107 @@
-mvn archetype:generate -DgroupId=com.superware -DartifactId=spring-anno-web-app -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false
+# How do I build the app
 
-¶þ¡¢°²×°Tomcat
+## Init the workspace for web application development using Maven
 
-¡¡¡¡A¡¢»ñÈ¡Tomcat°²×°°ü
+`mvn archetype:generate -DgroupId=com.superware -DartifactId=spring-anno-web-app -DarchetypeArtifactId=maven-archetype-webapp -DinteractiveMode=false`
 
-wget http://apache.etoak.com/tomcat/tomcat-7/v7.0.14/bin/apache-tomcat-7.0.14.tar.gz
+## Linux ä¸Šå®‰è£…Tomcat
 
-¡¡¡¡B¡¢½âÑ¹²¢°²×°
+1. èŽ·å–Tomcatå®‰è£…åŒ…
+   `wget http://apache.etoak.com/tomcat/tomcat-7/v7.0.14/bin/apache-tomcat-7.0.14.tar.gz`
 
-mkdir -p /usr/local/webserver/
-tar  xvzf  apache-tomcat-7.0.14.tar.gz -C /usr/local/webserver/
-#ÖØÃüÃû°²×°Ä¿Â¼
-cd /usr/local/webserver/
-mv apache-tomcat-7.0.14/ tomcat
+2. è§£åŽ‹å¹¶å®‰è£…
+  1. `mkdir -p /usr/local/webserver/`
+  2. `tar  xvzf  apache-tomcat-7.0.14.tar.gz -C /usr/local/webserver/`
+  3. é‡å‘½åå®‰è£…ç›®å½•
+    * `cd /usr/local/webserver/`
+    * `mv apache-tomcat-7.0.14/ tomcat`
 
-¡¡¡¡C¡¢ÉèÖÃtomcatÒÔ¶ÀÁ¢µÄÓÃ»§ÔËÐÐ
+3. è®¾ç½®tomcatä»¥ç‹¬ç«‹çš„ç”¨æˆ·è¿è¡Œ
+   æ·»åŠ ä¸€ä¸ªç³»ç»Ÿç”¨æˆ·tomcatï¼Œå¹¶ä¸”è®¾ç½®ä¸ºä¸å¯ç™»å½•ç³»ç»Ÿã€‚ 
+   `useradd -d /usr/local/webserver/tomcat -s /usr/sbin/nologin tomcat`
 
-#Ìí¼ÓÒ»¸öÏµÍ³ÓÃ»§tomcat£¬²¢ÇÒÉèÖÃÎª²»¿ÉµÇÂ¼ÏµÍ³¡£ 
-useradd -d /usr/local/webserver/tomcat -s /usr/sbin/nologin tomcat
+4. è®¾ç½®ç”¨æˆ·tomcatå¯¹tomcatç›®å½•çš„è®¿é—®æƒé™
+   `chown -R tomcat.tomcat /usr/local/webserver/tomcat/`
 
-¡¡¡¡D¡¢ÉèÖÃÓÃ»§tomcat¶ÔtomcatÄ¿Â¼µÄ·ÃÎÊÈ¨ÏÞ
+5. é…ç½®TomcatçŽ¯å¢ƒå˜é‡
+  1. `vi /etc/environment`
+     >CATALINA_BASE=/usr/local/webserver/tomcat
+     >CATALINA_HOME=/usr/local/webserver/tomcat
+     >TOMCAT_USERï¼tomcat
+  2. ä½¿ç”¨ä»¥ä¸‹å‘½ä»¤ä½¿é…ç½®ç”Ÿæ•ˆ
+     `. /etc/environment`
 
-chown -R tomcat.tomcat /usr/local/webserver/tomcat/
+6. å¯åŠ¨Tomcat
+   `/usr/local/webserver/tomcat/bin/startup.sh`
+   
+   Sample output:
+   >Using CATALINA_BASE:   /usr/local/webserver/tomcat
+   >Using CATALINA_HOME:   /usr/local/webserver/tomcat
+   >Using CATALINA_TMPDIR: /usr/local/webserver/tomcat/temp
+   >Using JRE_HOME:        /usr
+   >Using CLASSPATH:       /usr/local/webserver/tomcat/bin/bootstrap.jar:/usr/local/webserver/tomcat/bin/tomcat-juli.jar
 
-¡¡¡¡E¡¢ÅäÖÃTomcat»·¾³±äÁ¿
+7. æµ‹è¯•
+   è®¿é—®http://ip:8080/ï¼Œå¦‚æžœçœ‹åˆ°Tomcatç¼ºçœç•Œé¢å°±è¡¨ç¤ºæˆåŠŸäº†ã€‚
 
-vi /etc/environment
+8. åœæ­¢Tomcat
+   `/usr/local/webserver/tomcat/bin/shutdown.sh`
+
+9. è®¾ç½®Tomcatç®¡ç†å‘˜å¸å·
+ Â  åœ¨ç›®çš„æ ‡ç­¾å‰æ·»åŠ ä»¥ä¸‹å†…å®¹
+   `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
  
-CATALINA_BASE=/usr/local/webserver/tomcat
-CATALINA_HOME=/usr/local/webserver/tomcat
-TOMCAT_USER£½tomcat
+   ><role rolename="admin-gui"/>
+   ><role rolename="admin-script"/>
+   ><role rolename="manager-gui"/>
+   ><role rolename="manager-script"/>
+   ><role rolename="manager-jmx"/>
+   ><role rolename="manager-status"/>
+   ><user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
 
-¡¡¡¡Ê¹ÓÃÒÔÏÂÃüÁîÊ¹ÅäÖÃÉúÐ§
+ã€€ ä¿å­˜å…³é—­åŽï¼Œé‡æ–°è¿è¡Œtomcatå³å¯è¾“å…¥ä¸Šé¢å®šäº¤çš„ç”¨æˆ·åå’Œå¯†ç ï¼Œwww.linuxidc.comä¾¿ç™»å½•Tomcatçš„ç®¡ç†é¡µé¢ã€‚
 
-. /etc/environment
+10. ä»¥å®ˆæŠ¤è¿›ç¨‹æ–¹å¼è¿è¡Œtomcat
 
-¡¡¡¡F¡¢Æô¶¯Tomcat
+ã€€ã€€æŒ‰ç…§tomcatå®˜æ–¹çš„è¦æ±‚ï¼Œtomcatä½œä¸ºä¸€ä¸ªå®ˆæŠ¤è¿›ç¨‹è¿è¡Œï¼Œéœ€è¦ç”¨åˆ°jsvcå·¥å…·
 
-/usr/local/webserver/tomcat/bin/startup.sh 
+ã€€ã€€1. å®‰è£…jsvc
+    ```
+    cd  /usr/local/webserver/tomcat/bin/
+    tar xvzf  commons-daemon-native.tar.gz 
+    cd commons-daemon-1.0.5-native-src/unix/
+    ./configure
+    make
+    cp jsvc ../..
+    cd ../..
+    ```
+ã€€ã€€2. è¿è¡Œä¸‹é¢çš„å‘½ä»¤ï¼Œä¾¿å¯ä»¥å®ˆæŠ¤è¿›ç¨‹è¿è¡Œtomcat
+    `cd  /usr/local/webserver/tomcat/`
+
+ã€€ã€€è®¿é—®http://ip:8080/ï¼Œå¦‚æžœçœ‹åˆ°Tomcatç¼ºçœç•Œé¢å°±è¡¨ç¤ºæˆåŠŸäº†ã€‚
+
+11. è®¾ç½®å¼€æœºå¯åŠ¨tomcat
+
+ã€€ã€€æœ¬æ‰“ç®—ä»¥å®ˆæŠ¤ç¨‹åºæ–¹å¼è®¾ç½®å¼€æœºå¯åŠ¨çš„ï¼Œç ”ç©¶Nä¹…æœªæžœï¼Œå…ˆæš‚æ—¶ç”¨ä¸‹é¢çš„æ–¹æ³•å§ï¼
+ã€€ã€€
+ã€€ã€€ç¼–è¾‘/etc/rc.localï¼ŒåŠ å…¥å¯åŠ¨è„šæœ¬
+    `vi /etc/rc.local`
  
-Using CATALINA_BASE:   /usr/local/webserver/tomcat
-Using CATALINA_HOME:   /usr/local/webserver/tomcat
-Using CATALINA_TMPDIR: /usr/local/webserver/tomcat/temp
-Using JRE_HOME:        /usr
-Using CLASSPATH:       /usr/local/webserver/tomcat/bin/bootstrap.jar:/usr/local/webserver/tomcat/bin/tomcat-juli.jar
+    `/usr/local/webserver/tomcat/bin/startup.sh`
 
-¡¡¡¡G¡¢²âÊÔ
+ã€€ã€€é‡å¯,è®¿é—®http://ip:8080/ï¼Œå¦‚æžœçœ‹åˆ°Tomcatç¼ºçœç•Œé¢å°±è¡¨ç¤ºæˆåŠŸäº†ã€‚
 
-¡¡¡¡·ÃÎÊhttp://ip:8080/£¬Èç¹û¿´µ½TomcatÈ±Ê¡½çÃæ¾Í±íÊ¾³É¹¦ÁË¡£
-
-¡¡¡¡H¡¢Í£Ö¹Tomcat
-
-/usr/local/webserver/tomcat/bin/shutdown.sh
-
-¡¡¡¡I¡¢ÉèÖÃTomcat¹ÜÀíÔ±ÕÊºÅ
-
-¡¡¡¡ÔÚµÄ±êÇ©Ç°Ìí¼ÓÒÔÏÂÄÚÈÝ
-
-nano /usr/local/webserver/tomcat/conf/tomcat-users.xml
- 
-<role rolename="admin-gui"/>
-<role rolename="admin-script"/>
-<role rolename="manager-gui"/>
-<role rolename="manager-script"/>
-<role rolename="manager-jmx"/>
-<role rolename="manager-status"/>
-<user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
-
-¡¡¡¡±£´æ¹Ø±Õºó£¬ÖØÐÂÔËÐÐtomcat¼´¿ÉÊäÈëÉÏÃæ¶¨½»µÄÓÃ»§ÃûºÍÃÜÂë£¬www.linuxidc.com±ãµÇÂ¼TomcatµÄ¹ÜÀíÒ³Ãæ¡£
-
-¡¡¡¡J¡¢ÒÔÊØ»¤½ø³Ì·½Ê½ÔËÐÐtomcat
-
-¡¡¡¡°´ÕÕtomcat¹Ù·½µÄÒªÇó£¬tomcat×÷ÎªÒ»¸öÊØ»¤½ø³ÌÔËÐÐ£¬ÐèÒªÓÃµ½jsvc¹¤¾ß
-
-¡¡¡¡°²×°jsvc
-
-cd  /usr/local/webserver/tomcat/bin/
-tar xvzf  commons-daemon-native.tar.gz 
-cd commons-daemon-1.0.5-native-src/unix/
-./configure
-make
-cp jsvc ../..
-cd ../..
-
-¡¡¡¡ÔËÐÐÏÂÃæµÄÃüÁî£¬±ã¿ÉÒÔÊØ»¤½ø³ÌÔËÐÐtomcat
-
-cd  /usr/local/webserver/tomcat/
-
-¡¡¡¡·ÃÎÊhttp://ip:8080/£¬Èç¹û¿´µ½TomcatÈ±Ê¡½çÃæ¾Í±íÊ¾³É¹¦ÁË¡£
-
-¡¡¡¡K¡¢ÉèÖÃ¿ª»úÆô¶¯tomcat
-
-¡¡¡¡±¾´òËãÒÔÊØ»¤³ÌÐò·½Ê½ÉèÖÃ¿ª»úÆô¶¯µÄ£¬ÑÐ¾¿N¾ÃÎ´¹û£¬ÏÈÔÝÊ±ÓÃÏÂÃæµÄ·½·¨°É£¡
-¡¡¡¡
-¡¡¡¡±à¼­/etc/rc.local£¬¼ÓÈëÆô¶¯½Å±¾
-
-vi /etc/rc.local
- 
-/usr/local/webserver/tomcat/bin/startup.sh
-
-¡¡¡¡ÖØÆô,·ÃÎÊhttp://ip:8080/£¬Èç¹û¿´µ½TomcatÈ±Ê¡½çÃæ¾Í±íÊ¾³É¹¦ÁË¡£
-
-    L. ¿ªÆôGZIP
-ÐÞ¸Ä%TOMCAT_HOME%/conf/server.xml£¬ÐÞ¶©½ÚµãÈçÏÂ£º
-<Connector port="80" protocol="HTTP/1.1"   
+12. å¼€å¯GZIP
+    ä¿®æ”¹%TOMCAT_HOME%/conf/server.xmlï¼Œä¿®è®¢èŠ‚ç‚¹å¦‚ä¸‹ï¼š
+    <Connector port="80" protocol="HTTP/1.1"   
            connectionTimeout="20000"   
            redirectPort="8443" URIEncoding="utf-8"   
                        compression="on"   
                        compressionMinSize="50" noCompressionUserAgents="gozilla, traviata"   
                        compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain" /> 
                        
-                       ÅäÖÃTomcatÏß³Ì³ØÒÔÊ¹ÓÃ¸ß²¢·¢Á¬½Ó
-
-
-    M.
-1.´ò¿ª¹²ÏíµÄÏß³Ì³Ø£º
+13. é…ç½®Tomcatçº¿ç¨‹æ± ä»¥ä½¿ç”¨é«˜å¹¶å‘è¿žæŽ¥
+  1.æ‰“å¼€å…±äº«çš„çº¿ç¨‹æ± ï¼š
 
 <Service name="Catalina">  
   <!--The connectors can use a shared executor, you can define one or more named thread pools-->  
@@ -122,25 +109,23 @@ vi /etc/rc.local
     <Executor name="tomcatThreadPool" namePrefix="catalina-exec-"    
     maxThreads="1000" minSpareThreads="50" maxIdleTime="600000"/>
 
-Ä¬ÈÏÇ°ºóÊÇ×¢ÊÍ<!-- -->µôµÄ£¬È¥µô¾Í¿ÉÒÔÁË¡£
+é»˜è®¤å‰åŽæ˜¯æ³¨é‡Š<!-- -->æŽ‰çš„ï¼ŒåŽ»æŽ‰å°±å¯ä»¥äº†ã€‚
 
-ÖØÒª²ÎÊýËµÃ÷£º
+é‡è¦å‚æ•°è¯´æ˜Žï¼š
 
-name£º¹²ÏíÏß³Ì³ØµÄÃû×Ö¡£ÕâÊÇConnectorÎªÁË¹²ÏíÏß³Ì³ØÒªÒýÓÃµÄÃû×Ö£¬¸ÃÃû×Ö±ØÐëÎ¨Ò»¡£Ä¬ÈÏÖµ£ºNone£»
+nameï¼šå…±äº«çº¿ç¨‹æ± çš„åå­—ã€‚è¿™æ˜¯Connectorä¸ºäº†å…±äº«çº¿ç¨‹æ± è¦å¼•ç”¨çš„åå­—ï¼Œè¯¥åå­—å¿…é¡»å”¯ä¸€ã€‚é»˜è®¤å€¼ï¼šNoneï¼›
 
-namePrefix:ÔÚJVMÉÏ£¬Ã¿¸öÔËÐÐÏß³Ì¶¼¿ÉÒÔÓÐÒ»¸öname ×Ö·û´®¡£ÕâÒ»ÊôÐÔÎªÏß³Ì³ØÖÐÃ¿¸öÏß³ÌµÄname×Ö·û´®ÉèÖÃÁËÒ»¸öÇ°×º£¬Tomcat½«°ÑÏß³ÌºÅ×·¼Óµ½ÕâÒ»Ç°×ºµÄºóÃæ¡£Ä¬ÈÏÖµ£ºtomcat-exec-£»
+namePrefix:åœ¨JVMä¸Šï¼Œæ¯ä¸ªè¿è¡Œçº¿ç¨‹éƒ½å¯ä»¥æœ‰ä¸€ä¸ªname å­—ç¬¦ä¸²ã€‚è¿™ä¸€å±žæ€§ä¸ºçº¿ç¨‹æ± ä¸­æ¯ä¸ªçº¿ç¨‹çš„nameå­—ç¬¦ä¸²è®¾ç½®äº†ä¸€ä¸ªå‰ç¼€ï¼ŒTomcatå°†æŠŠçº¿ç¨‹å·è¿½åŠ åˆ°è¿™ä¸€å‰ç¼€çš„åŽé¢ã€‚é»˜è®¤å€¼ï¼štomcat-exec-ï¼›
 
-maxThreads£º¸ÃÏß³Ì³Ø¿ÉÒÔÈÝÄÉµÄ×î´óÏß³ÌÊý¡£Ä¬ÈÏÖµ£º200£»
+maxThreadsï¼šè¯¥çº¿ç¨‹æ± å¯ä»¥å®¹çº³çš„æœ€å¤§çº¿ç¨‹æ•°ã€‚é»˜è®¤å€¼ï¼š200ï¼›
 
-maxIdleTime£ºÔÚTomcat¹Ø±ÕÒ»¸ö¿ÕÏÐÏß³ÌÖ®Ç°£¬ÔÊÐí¿ÕÏÐÏß³Ì³ÖÐøµÄÊ±¼ä(ÒÔºÁÃëÎªµ¥Î»)¡£Ö»ÓÐµ±Ç°»îÔ¾µÄÏß³ÌÊý´óÓÚminSpareThreadµÄÖµ£¬²Å»á¹Ø±Õ¿ÕÏÐÏß³Ì¡£Ä¬ÈÏÖµ£º60000(Ò»·ÖÖÓ)¡£
+maxIdleTimeï¼šåœ¨Tomcatå…³é—­ä¸€ä¸ªç©ºé—²çº¿ç¨‹ä¹‹å‰ï¼Œå…è®¸ç©ºé—²çº¿ç¨‹æŒç»­çš„æ—¶é—´(ä»¥æ¯«ç§’ä¸ºå•ä½)ã€‚åªæœ‰å½“å‰æ´»è·ƒçš„çº¿ç¨‹æ•°å¤§äºŽminSpareThreadçš„å€¼ï¼Œæ‰ä¼šå…³é—­ç©ºé—²çº¿ç¨‹ã€‚é»˜è®¤å€¼ï¼š60000(ä¸€åˆ†é’Ÿ)ã€‚
 
-minSpareThreads£ºTomcatÓ¦¸ÃÊ¼ÖÕ´ò¿ªµÄ×îÐ¡²»»îÔ¾Ïß³ÌÊý¡£Ä¬ÈÏÖµ£º25¡£
+minSpareThreadsï¼šTomcatåº”è¯¥å§‹ç»ˆæ‰“å¼€çš„æœ€å°ä¸æ´»è·ƒçº¿ç¨‹æ•°ã€‚é»˜è®¤å€¼ï¼š25ã€‚
 
-threadPriority£ºÏß³ÌµÄµÈ¼¶¡£Ä¬ÈÏÊÇThread.NORM_PRIORITY
+threadPriorityï¼šçº¿ç¨‹çš„ç­‰çº§ã€‚é»˜è®¤æ˜¯Thread.NORM_PRIORITY
 
- 
-
-2. ÔÚConnectorÖÐÖ¸¶¨Ê¹ÓÃ¹²ÏíÏß³Ì³Ø£º
+  2. åœ¨Connectorä¸­æŒ‡å®šä½¿ç”¨å…±äº«çº¿ç¨‹æ± ï¼š
 
 <Connector executor="tomcatThreadPool"
            port="8080" protocol="HTTP/1.1"
@@ -152,11 +137,11 @@ threadPriority£ºÏß³ÌµÄµÈ¼¶¡£Ä¬ÈÏÊÇThread.NORM_PRIORITY
 
  
 
-ÖØÒª²ÎÊýËµÃ÷£º
-executor£º±íÊ¾Ê¹ÓÃ¸Ã²ÎÊýÖµ¶ÔÓ¦µÄÏß³Ì³Ø£»
+é‡è¦å‚æ•°è¯´æ˜Žï¼š
+executorï¼šè¡¨ç¤ºä½¿ç”¨è¯¥å‚æ•°å€¼å¯¹åº”çš„çº¿ç¨‹æ± ï¼›
 
-minProcessors£º·þÎñÆ÷Æô¶¯Ê±´´½¨µÄ´¦ÀíÇëÇóµÄÏß³ÌÊý£»
+minProcessorsï¼šæœåŠ¡å™¨å¯åŠ¨æ—¶åˆ›å»ºçš„å¤„ç†è¯·æ±‚çš„çº¿ç¨‹æ•°ï¼›
 
-maxProcessors£º×î´ó¿ÉÒÔ´´½¨µÄ´¦ÀíÇëÇóµÄÏß³ÌÊý£»
+maxProcessorsï¼šæœ€å¤§å¯ä»¥åˆ›å»ºçš„å¤„ç†è¯·æ±‚çš„çº¿ç¨‹æ•°ï¼›
 
-acceptCount£ºÖ¸¶¨µ±ËùÓÐ¿ÉÒÔÊ¹ÓÃµÄ´¦ÀíÇëÇóµÄÏß³ÌÊý¶¼±»Ê¹ÓÃÊ±£¬¿ÉÒÔ·Åµ½´¦Àí¶ÓÁÐÖÐµÄÇëÇóÊý£¬³¬¹ýÕâ¸öÊýµÄÇëÇó½«²»Óè´¦Àí¡£
+acceptCountï¼šæŒ‡å®šå½“æ‰€æœ‰å¯ä»¥ä½¿ç”¨çš„å¤„ç†è¯·æ±‚çš„çº¿ç¨‹æ•°éƒ½è¢«ä½¿ç”¨æ—¶ï¼Œå¯ä»¥æ”¾åˆ°å¤„ç†é˜Ÿåˆ—ä¸­çš„è¯·æ±‚æ•°ï¼Œè¶…è¿‡è¿™ä¸ªæ•°çš„è¯·æ±‚å°†ä¸äºˆå¤„ç†ã€‚
