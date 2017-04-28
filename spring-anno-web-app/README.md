@@ -123,7 +123,7 @@
 
 13. 配置Tomcat线程池以使用高并发连接
 
-    1.打开共享的线程池：
+    1. 打开共享的线程池：
     
     ```xml
     <Service name="Catalina">
