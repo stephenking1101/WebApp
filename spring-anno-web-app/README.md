@@ -31,7 +31,7 @@
    1. `vi /etc/environment`
    
       CATALINA_BASE=/usr/local/webserver/tomcat
-      <p>CATALINA_HOME=/usr/local/webserver/tomcat
+      <p>CATALINA_HOME=/usr/local/webserver/tomcat<br>
       TOMCAT_USER＝tomcat</p>
      
    2. 使用以下命令使配置生效
@@ -60,12 +60,12 @@
    `/usr/local/webserver/tomcat/bin/shutdown.sh`
 
 9. 设置Tomcat管理员帐号
-
-    在目的标签前添加以下内容
+     
+     在目的标签前添加以下内容
    
-    `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
+     `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
  
-    ```xml
+       ```xml
     <role rolename="admin-gui"/>
     <role rolename="admin-script"/>
     <role rolename="manager-gui"/>
@@ -73,7 +73,7 @@
     <role rolename="manager-jmx"/>
     <role rolename="manager-status"/>
     <user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
-    ```
+        ```
    
 　  保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便可以登录Tomcat的管理页面。
 
@@ -142,7 +142,7 @@
   threadPriority：线程的等级。默认是Thread.NORM_PRIORITY
 
   2. 在Connector中指定使用共享线程池：
-
+  ```xml
   <Connector executor="tomcatThreadPool"
            port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
@@ -150,7 +150,7 @@
            minProcessors="5"
            maxProcessors="75"
            acceptCount="1000"/>
-
+   ```
  
 
   重要参数说明：
