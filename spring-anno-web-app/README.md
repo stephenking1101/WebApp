@@ -63,9 +63,9 @@
 
 9. 设置Tomcat管理员帐号
 
-   在目的标签前添加以下内容
+    在目的标签前添加以下内容
    
-   `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
+    `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
  
    ```xml
    <role rolename="admin-gui"/>
@@ -77,7 +77,7 @@
    <user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
    ```
    
-　 保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便登录Tomcat的管理页面。
+　  保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便登录Tomcat的管理页面。
 
 10. 以守护进程方式运行tomcat
 
@@ -110,21 +110,23 @@
 　　重启,访问http://ip:8080/，如果看到Tomcat缺省界面就表示成功了。
 
 12. 开启GZIP
+
     修改%TOMCAT_HOME%/conf/server.xml，修订节点如下：
+    ```xml
     <Connector port="80" protocol="HTTP/1.1"   
            connectionTimeout="20000"   
            redirectPort="8443" URIEncoding="utf-8"   
                        compression="on"   
                        compressionMinSize="50" noCompressionUserAgents="gozilla, traviata"   
                        compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain" /> 
-                       
+    ```             
 13. 配置Tomcat线程池以使用高并发连接
-    1.打开共享的线程池：
-
+        1.打开共享的线程池：
+  ```xml
   <Service name="Catalina">  
   <!--The connectors can use a shared executor, you can define one or more named thread pools-->  
-  <Executor name="tomcatThreadPool" namePrefix="catalina-exec-"    
-    maxThreads="1000" minSpareThreads="50" maxIdleTime="600000"/>
+  <Executor name="tomcatThreadPool" namePrefix="catalina-exec-" maxThreads="1000" minSpareThreads="50" maxIdleTime="600000"/>
+  ```
   默认前后是注释<!-- -->掉的，去掉就可以了。
 
   重要参数说明：
