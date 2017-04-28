@@ -24,22 +24,23 @@
    `chown -R tomcat.tomcat /usr/local/webserver/tomcat/`
 
 5. 配置Tomcat环境变量
-  1. `vi /etc/environment`
-     >CATALINA_BASE=/usr/local/webserver/tomcat
-     >CATALINA_HOME=/usr/local/webserver/tomcat
-     >TOMCAT_USER＝tomcat
-  2. 使用以下命令使配置生效
+   1. `vi /etc/environment`
+     CATALINA_BASE=/usr/local/webserver/tomcat
+     CATALINA_HOME=/usr/local/webserver/tomcat
+     TOMCAT_USER＝tomcat
+   2. 使用以下命令使配置生效
      `. /etc/environment`
 
 6. 启动Tomcat
+
    `/usr/local/webserver/tomcat/bin/startup.sh`
    
    Sample output:
-   >Using CATALINA_BASE:   /usr/local/webserver/tomcat
-   >Using CATALINA_HOME:   /usr/local/webserver/tomcat
-   >Using CATALINA_TMPDIR: /usr/local/webserver/tomcat/temp
-   >Using JRE_HOME:        /usr
-   >Using CLASSPATH:       /usr/local/webserver/tomcat/bin/bootstrap.jar:/usr/local/webserver/tomcat/bin/tomcat-juli.jar
+   Using CATALINA_BASE:   /usr/local/webserver/tomcat
+   Using CATALINA_HOME:   /usr/local/webserver/tomcat
+   Using CATALINA_TMPDIR: /usr/local/webserver/tomcat/temp
+   Using JRE_HOME:        /usr
+   Using CLASSPATH:       /usr/local/webserver/tomcat/bin/bootstrap.jar:/usr/local/webserver/tomcat/bin/tomcat-juli.jar
 
 7. 测试
    访问http://ip:8080/，如果看到Tomcat缺省界面就表示成功了。
