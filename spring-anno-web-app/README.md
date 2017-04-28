@@ -7,6 +7,7 @@
 ## Linux 上安装Tomcat
 
 1. 获取Tomcat安装包
+
    `wget http://apache.etoak.com/tomcat/tomcat-7/v7.0.14/bin/apache-tomcat-7.0.14.tar.gz`
 
 2. 解压并安装
@@ -17,18 +18,23 @@
       * `mv apache-tomcat-7.0.14/ tomcat`
 
 3. 设置tomcat以独立的用户运行
+
    添加一个系统用户tomcat，并且设置为不可登录系统。 
+   
    `useradd -d /usr/local/webserver/tomcat -s /usr/sbin/nologin tomcat`
 
 4. 设置用户tomcat对tomcat目录的访问权限
+
    `chown -R tomcat.tomcat /usr/local/webserver/tomcat/`
 
 5. 配置Tomcat环境变量
    1. `vi /etc/environment`
+   
      CATALINA_BASE=/usr/local/webserver/tomcat
      CATALINA_HOME=/usr/local/webserver/tomcat
      TOMCAT_USER＝tomcat
    2. 使用以下命令使配置生效
+   
      `. /etc/environment`
 
 6. 启动Tomcat
