@@ -19,8 +19,8 @@
 
 3. 设置tomcat以独立的用户运行
 
-   添加一个系统用户tomcat，并且设置为不可登录系统。 
-   
+   添加一个系统用户tomcat，并且设置为不可登录系统。
+
    `useradd -d /usr/local/webserver/tomcat -s /usr/sbin/nologin tomcat`
 
 4. 设置用户tomcat对tomcat目录的访问权限
@@ -29,27 +29,27 @@
 
 5. 配置Tomcat环境变量
    1. `vi /etc/environment`
-   
+
       CATALINA_BASE=/usr/local/webserver/tomcat
-      <p>CATALINA_HOME=/usr/local/webserver/tomcat<br>
-      TOMCAT_USER＝tomcat</p>
-     
+      CATALINA_HOME=/usr/local/webserver/tomcat
+      TOMCAT_USER＝tomcat
+
    2. 使用以下命令使配置生效
-       
-       `. /etc/environment`
+
+      `. /etc/environment`
 
 6. 启动Tomcat
 
    `/usr/local/webserver/tomcat/bin/startup.sh`
-   
-    Sample output:
-    ```
+
+   Sample output:
+   ```
     Using CATALINA_BASE:   /usr/local/webserver/tomcat
     Using CATALINA_HOME:   /usr/local/webserver/tomcat
     Using CATALINA_TMPDIR: /usr/local/webserver/tomcat/temp
     Using JRE_HOME:        /usr
     Using CLASSPATH:       /usr/local/webserver/tomcat/bin/bootstrap.jar:/usr/local/webserver/tomcat/bin/tomcat-juli.jar
-    ```
+   ```
    
 7. 测试
 
@@ -60,12 +60,12 @@
    `/usr/local/webserver/tomcat/bin/shutdown.sh`
 
 9. 设置Tomcat管理员帐号
-     
-     在目的标签前添加以下内容
-   
-     `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
- 
-       ```xml
+
+   在目的标签前添加以下内容
+
+   `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
+
+   ```xml
     <role rolename="admin-gui"/>
     <role rolename="admin-script"/>
     <role rolename="manager-gui"/>
@@ -73,15 +73,16 @@
     <role rolename="manager-jmx"/>
     <role rolename="manager-status"/>
     <user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
-        ```
+   ```
    
-　  保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便可以登录Tomcat的管理页面。
+   保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便可以登录Tomcat的管理页面。
 
 10. 以守护进程方式运行tomcat
 
-　　按照tomcat官方的要求，tomcat作为一个守护进程运行，需要用到jsvc工具
+   按照tomcat官方的要求，tomcat作为一个守护进程运行，需要用到jsvc工具
 
-　　1. 安装jsvc
+   1. 安装jsvc
+   
     ```
     cd  /usr/local/webserver/tomcat/bin/
     tar xvzf  commons-daemon-native.tar.gz 
@@ -91,7 +92,8 @@
     cp jsvc ../..
     cd ../..
     ```
-　　* 运行下面的命令，便可以守护进程运行tomcat
+    
+   2. 运行下面的命令，便可以守护进程运行tomcat
     `cd  /usr/local/webserver/tomcat/`
 
 　　访问http&#58;//ip:8080/，如果看到Tomcat缺省界面就表示成功了。
