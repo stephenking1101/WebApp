@@ -30,11 +30,9 @@
 5. 配置Tomcat环境变量
    1. `vi /etc/environment`
    
-     CATALINA_BASE=/usr/local/webserver/tomcat
-     
-     CATALINA_HOME=/usr/local/webserver/tomcat
-     
-     TOMCAT_USER＝tomcat
+      CATALINA_BASE=/usr/local/webserver/tomcat
+      CATALINA_HOME=/usr/local/webserver/tomcat
+      TOMCAT_USER＝tomcat
      
    2. 使用以下命令使配置生效
    
@@ -44,18 +42,18 @@
 
    `/usr/local/webserver/tomcat/bin/startup.sh`
    
-   Sample output:
-   ```
-   Using CATALINA_BASE:   /usr/local/webserver/tomcat
-   Using CATALINA_HOME:   /usr/local/webserver/tomcat
-   Using CATALINA_TMPDIR: /usr/local/webserver/tomcat/temp
-   Using JRE_HOME:        /usr
-   Using CLASSPATH:       /usr/local/webserver/tomcat/bin/bootstrap.jar:/usr/local/webserver/tomcat/bin/tomcat-juli.jar
-   ```
+    Sample output:
+    ```
+    Using CATALINA_BASE:   /usr/local/webserver/tomcat
+    Using CATALINA_HOME:   /usr/local/webserver/tomcat
+    Using CATALINA_TMPDIR: /usr/local/webserver/tomcat/temp
+    Using JRE_HOME:        /usr
+    Using CLASSPATH:       /usr/local/webserver/tomcat/bin/bootstrap.jar:/usr/local/webserver/tomcat/bin/tomcat-juli.jar
+    ```
    
 7. 测试
 
-   访问http://ip:8080/，如果看到Tomcat缺省界面就表示成功了。
+   访问http&#58;//ip:8080/，如果看到Tomcat缺省界面就表示成功了。
 
 8. 停止Tomcat
 
@@ -67,15 +65,15 @@
    
     `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
  
-   ```xml
-   <role rolename="admin-gui"/>
-   <role rolename="admin-script"/>
-   <role rolename="manager-gui"/>
-   <role rolename="manager-script"/>
-   <role rolename="manager-jmx"/>
-   <role rolename="manager-status"/>
-   <user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
-   ```
+    ```xml
+    <role rolename="admin-gui"/>
+    <role rolename="admin-script"/>
+    <role rolename="manager-gui"/>
+    <role rolename="manager-script"/>
+    <role rolename="manager-jmx"/>
+    <role rolename="manager-status"/>
+    <user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
+    ```
    
 　  保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便登录Tomcat的管理页面。
 
