@@ -31,12 +31,12 @@
    1. `vi /etc/environment`
    
       CATALINA_BASE=/usr/local/webserver/tomcat
-      CATALINA_HOME=/usr/local/webserver/tomcat
-      TOMCAT_USER＝tomcat
+      <p>CATALINA_HOME=/usr/local/webserver/tomcat
+      TOMCAT_USER＝tomcat</p>
      
    2. 使用以下命令使配置生效
-   
-     `. /etc/environment`
+       
+       `. /etc/environment`
 
 6. 启动Tomcat
 
@@ -75,7 +75,7 @@
     <user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
     ```
    
-　  保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便登录Tomcat的管理页面。
+　  保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便可以登录Tomcat的管理页面。
 
 10. 以守护进程方式运行tomcat
 
@@ -94,7 +94,7 @@
 　　* 运行下面的命令，便可以守护进程运行tomcat
     `cd  /usr/local/webserver/tomcat/`
 
-　　访问http://ip:8080/，如果看到Tomcat缺省界面就表示成功了。
+　　访问http&#58;//ip:8080/，如果看到Tomcat缺省界面就表示成功了。
 
 11. 设置开机启动tomcat
 
@@ -105,7 +105,7 @@
  
     `/usr/local/webserver/tomcat/bin/startup.sh`
 
-　　重启,访问http://ip:8080/，如果看到Tomcat缺省界面就表示成功了。
+　　重启,访问http&#58;//ip:8080/，如果看到Tomcat缺省界面就表示成功了。
 
 12. 开启GZIP
 
