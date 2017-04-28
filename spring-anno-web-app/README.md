@@ -31,8 +31,11 @@
    1. `vi /etc/environment`
    
      CATALINA_BASE=/usr/local/webserver/tomcat
+     
      CATALINA_HOME=/usr/local/webserver/tomcat
+     
      TOMCAT_USER＝tomcat
+     
    2. 使用以下命令使配置生效
    
      `. /etc/environment`
@@ -42,20 +45,26 @@
    `/usr/local/webserver/tomcat/bin/startup.sh`
    
    Sample output:
+   ```
    Using CATALINA_BASE:   /usr/local/webserver/tomcat
    Using CATALINA_HOME:   /usr/local/webserver/tomcat
    Using CATALINA_TMPDIR: /usr/local/webserver/tomcat/temp
    Using JRE_HOME:        /usr
    Using CLASSPATH:       /usr/local/webserver/tomcat/bin/bootstrap.jar:/usr/local/webserver/tomcat/bin/tomcat-juli.jar
-
+   ```
+   
 7. 测试
+
    访问http://ip:8080/，如果看到Tomcat缺省界面就表示成功了。
 
 8. 停止Tomcat
+
    `/usr/local/webserver/tomcat/bin/shutdown.sh`
 
 9. 设置Tomcat管理员帐号
+
    在目的标签前添加以下内容
+   
    `nano /usr/local/webserver/tomcat/conf/tomcat-users.xml`
  
    ```xml
@@ -67,13 +76,14 @@
    <role rolename="manager-status"/>
    <user username="admin" password="000000" roles="manager-gui,manager-script,manager-jmx,manager-status,admin-script,admin-gui"/>
    ```
+   
 　 保存关闭后，重新运行tomcat即可输入上面定交的用户名和密码，便登录Tomcat的管理页面。
 
 10. 以守护进程方式运行tomcat
 
 　　按照tomcat官方的要求，tomcat作为一个守护进程运行，需要用到jsvc工具
 
-　　* 安装jsvc
+　　1. 安装jsvc
     ```
     cd  /usr/local/webserver/tomcat/bin/
     tar xvzf  commons-daemon-native.tar.gz 
@@ -109,7 +119,7 @@
                        compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain" /> 
                        
 13. 配置Tomcat线程池以使用高并发连接
-  1.打开共享的线程池：
+    1.打开共享的线程池：
 
   <Service name="Catalina">  
   <!--The connectors can use a shared executor, you can define one or more named thread pools-->  
