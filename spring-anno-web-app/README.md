@@ -79,87 +79,91 @@
 
 10. 以守护进程方式运行tomcat
 
-   按照tomcat官方的要求，tomcat作为一个守护进程运行，需要用到jsvc工具
+    按照tomcat官方的要求，tomcat作为一个守护进程运行，需要用到jsvc工具
 
-   1. 安装jsvc
-   
+    1. 安装jsvc
+
     ```
     cd  /usr/local/webserver/tomcat/bin/
-    tar xvzf  commons-daemon-native.tar.gz 
+    tar xvzf  commons-daemon-native.tar.gz
     cd commons-daemon-1.0.5-native-src/unix/
     ./configure
     make
     cp jsvc ../..
     cd ../..
     ```
-    
-   2. 运行下面的命令，便可以守护进程运行tomcat
+
+    2. 运行下面的命令，便可以守护进程运行tomcat
     `cd  /usr/local/webserver/tomcat/`
 
-　　访问http&#58;//ip:8080/，如果看到Tomcat缺省界面就表示成功了。
+    访问http&#58;//ip:8080/，如果看到Tomcat缺省界面就表示成功了。
 
 11. 设置开机启动tomcat
 
-　　本打算以守护程序方式设置开机启动的，研究N久未果，先暂时用下面的方法吧！
-　　
-　　编辑/etc/rc.local，加入启动脚本
+    本打算以守护程序方式设置开机启动的，研究N久未果，先暂时用下面的方法吧!
+
+    编辑/etc/rc.local，加入启动脚本
     `vi /etc/rc.local`
- 
+
     `/usr/local/webserver/tomcat/bin/startup.sh`
 
-　　重启,访问http&#58;//ip:8080/，如果看到Tomcat缺省界面就表示成功了。
+    重启,访问http&#58;//ip:8080/，如果看到Tomcat缺省界面就表示成功了。
 
 12. 开启GZIP
 
     修改%TOMCAT_HOME%/conf/server.xml，修订节点如下：
     ```xml
-    <Connector port="80" protocol="HTTP/1.1"   
-           connectionTimeout="20000"   
-           redirectPort="8443" URIEncoding="utf-8"   
-                       compression="on"   
-                       compressionMinSize="50" noCompressionUserAgents="gozilla, traviata"   
-                       compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain" /> 
-    ```             
+    <Connector port="80" protocol="HTTP/1.1"
+           connectionTimeout="20000"
+           redirectPort="8443" URIEncoding="utf-8"
+                       compression="on"
+                       compressionMinSize="50" noCompressionUserAgents="gozilla, traviata"
+                       compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain" />
+    ```
+
 13. 配置Tomcat线程池以使用高并发连接
-        1.打开共享的线程池：
-  ```xml
-  <Service name="Catalina">  
-  <!--The connectors can use a shared executor, you can define one or more named thread pools-->  
-  <Executor name="tomcatThreadPool" namePrefix="catalina-exec-" maxThreads="1000" minSpareThreads="50" maxIdleTime="600000"/>
-  ```
-  默认前后是注释<!-- -->掉的，去掉就可以了。
 
-  重要参数说明：
+    1.打开共享的线程池：
+    
+    ```xml
+    <Service name="Catalina">
+    <!--The connectors can use a shared executor, you can define one or more named thread pools-->
+    <Executor name="tomcatThreadPool" namePrefix="catalina-exec-" maxThreads="1000" minSpareThreads="50" maxIdleTime="600000"/>
+    ```
 
-  name：共享线程池的名字。这是Connector为了共享线程池要引用的名字，该名字必须唯一。默认值：None；
+    默认前后是注释<!-- -->掉的，去掉就可以了。
 
-  namePrefix:在JVM上，每个运行线程都可以有一个name 字符串。这一属性为线程池中每个线程的name字符串设置了一个前缀，Tomcat将把线程号追加到这一前缀的后面。默认值：tomcat-exec-；
+    重要参数说明：
 
-  maxThreads：该线程池可以容纳的最大线程数。默认值：200；
+    name：共享线程池的名字。这是Connector为了共享线程池要引用的名字，该名字必须唯一。默认值：None；
 
-  maxIdleTime：在Tomcat关闭一个空闲线程之前，允许空闲线程持续的时间(以毫秒为单位)。只有当前活跃的线程数大于minSpareThread的值，才会关闭空闲线程。默认值：60000(一分钟)。
+    namePrefix:在JVM上，每个运行线程都可以有一个name 字符串。这一属性为线程池中每个线程的name字符串设置了一个前缀，Tomcat将把线程号追加到这一前缀的后面。默认值：tomcat-exec-；
 
-  minSpareThreads：Tomcat应该始终打开的最小不活跃线程数。默认值：25。
+    maxThreads：该线程池可以容纳的最大线程数。默认值：200；
 
-  threadPriority：线程的等级。默认是Thread.NORM_PRIORITY
+    maxIdleTime：在Tomcat关闭一个空闲线程之前，允许空闲线程持续的时间(以毫秒为单位)。只有当前活跃的线程数大于minSpareThread的值，才会关闭空闲线程。默认值：60000(一分钟)。
 
-  2. 在Connector中指定使用共享线程池：
-  ```xml
-  <Connector executor="tomcatThreadPool"
+    minSpareThreads：Tomcat应该始终打开的最小不活跃线程数。默认值：25。
+
+    threadPriority：线程的等级。默认是Thread.NORM_PRIORITY
+
+    2. 在Connector中指定使用共享线程池：
+
+    ```xml
+    <Connector executor="tomcatThreadPool"
            port="8080" protocol="HTTP/1.1"
                connectionTimeout="20000"
                redirectPort="8443" 
            minProcessors="5"
            maxProcessors="75"
            acceptCount="1000"/>
-   ```
- 
+    ```
 
-  重要参数说明：
-  executor：表示使用该参数值对应的线程池；
+    重要参数说明：
+    executor：表示使用该参数值对应的线程池；
 
-  minProcessors：服务器启动时创建的处理请求的线程数；
+    minProcessors：服务器启动时创建的处理请求的线程数；
 
-  maxProcessors：最大可以创建的处理请求的线程数；
+    maxProcessors：最大可以创建的处理请求的线程数；
 
-  acceptCount：指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理。
+    acceptCount：指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理。
