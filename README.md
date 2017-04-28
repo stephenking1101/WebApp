@@ -1,3 +1,6 @@
-# WebApp
+# Web applications
 
-This is a Web site template built with Spring Boot.
+| Spring Boot | Spring MVC | Others |
+| :---: | :---: | --- |
+| git status   | git status     |  |
+| git diff     | git diff       |  |
