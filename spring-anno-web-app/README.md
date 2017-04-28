@@ -30,9 +30,9 @@
 5. 配置Tomcat环境变量
    1. `vi /etc/environment`
 
-      CATALINA_BASE=/usr/local/webserver/tomcat
+      <p>CATALINA_BASE=/usr/local/webserver/tomcat
       CATALINA_HOME=/usr/local/webserver/tomcat
-      TOMCAT_USER＝tomcat
+      TOMCAT_USER＝tomcat</p>
 
    2. 使用以下命令使配置生效
 
