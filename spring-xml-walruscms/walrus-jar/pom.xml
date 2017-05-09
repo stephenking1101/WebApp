@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>lt.walrus</groupId>
 		<artifactId>walrus</artifactId>
 		<version>TRUNK-SNAPSHOT</version>
 	</parent>
-	<groupId>lt.walrus</groupId>
 	<artifactId>walrus-jar</artifactId>
 	<packaging>jar</packaging>
 	<name>Walrus Core</name>
-	<version>TRUNK-SNAPSHOT</version>
 	<description>Walrus CMS core</description>
 
 	<build>
@@ -18,8 +17,8 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -109,5 +108,9 @@
 			<groupId>rome</groupId>
 			<artifactId>rome</artifactId>
 		</dependency>
+		<dependency>
+                <groupId>javax.mail</groupId>
+                <artifactId>mail</artifactId>
+        </dependency>
 	</dependencies>
 </project>

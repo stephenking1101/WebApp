@@ -1,0 +1,7 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Sat May 06 21:52:47 CST 2017
+http\://download.java.net/maven/2/.lastUpdated=1494078750578
+@default-snapshots-http\://stroike\:8081/archiva/repository/snapshots/.lastUpdated=1494078740718
+http\://stroike\:8081/archiva/repository/snapshots/.error=Could not transfer artifact org.springmodules\:spring-modules-xt\:jar\:0.8 from/to snapshots (http\://stroike\:8081/archiva/repository/snapshots)\: stroike
+http\://download.java.net/maven/2/.error=
+http\://central.maven.org/maven2/.lastUpdated=1494078767921

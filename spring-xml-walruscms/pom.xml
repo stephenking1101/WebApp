@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lt.walrus</groupId>
 	<artifactId>walrus</artifactId>
@@ -50,8 +51,8 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.7</source>
+					<target>1.7</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
@@ -111,7 +112,7 @@
 			<dependency>
 				<groupId>log4j</groupId>
 				<artifactId>log4j</artifactId>
-				<version>1.2.15</version>
+				<version>1.2.16</version>
 			</dependency>
 			<dependency>
 				<groupId>junit</groupId>
@@ -147,7 +148,7 @@
 			<dependency>
 				<groupId>org.springmodules</groupId>
 				<artifactId>spring-modules-xt</artifactId>
-				<version>0.9</version>
+				<version>0.10-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>net.sf.json-lib</groupId>
@@ -316,7 +317,7 @@
 			<dependency>
 				<groupId>net.sf.valuelist</groupId>
 				<artifactId>core</artifactId>
-				<version>1.0-SNAPSHOT</version>
+				<version>0.1.8</version>
 			</dependency>
 
 			<dependency>
@@ -329,6 +330,12 @@
 				<groupId>rome</groupId>
 				<artifactId>rome</artifactId>
 				<version>1.0</version>
+			</dependency>
+			
+			<dependency>
+			    <groupId>javax.mail</groupId>
+			    <artifactId>mail</artifactId>
+			    <version>1.4.7</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

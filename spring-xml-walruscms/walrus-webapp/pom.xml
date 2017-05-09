@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>lt.walrus</groupId>
 		<artifactId>walrus</artifactId>
 		<version>TRUNK-SNAPSHOT</version>
 	</parent>
-	<groupId>lt.walrus</groupId>
 	<artifactId>walrus-webapp</artifactId>
 	<packaging>war</packaging>
 	<name>Walrus Webapp</name>
-	<version>TRUNK-SNAPSHOT</version>
 	<description>Walrus CMS Webapp</description>
 
 <properties>
@@ -51,8 +50,8 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -210,6 +209,10 @@
 			<groupId>ognl</groupId>
 			<artifactId>ognl</artifactId>
 		</dependency>
-
+        <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>servlet-api</artifactId>
+                <scope>provided</scope>
+        </dependency>
 	</dependencies>
 </project>

@@ -1,0 +1,5 @@
+#NOTE: This is an Aether internal implementation file, its format can be changed without prior notice.
+#Mon May 08 15:51:34 CST 2017
+spring-modules-template-0.10-SNAPSHOT.pom>=
+spring-modules-template-0.10-SNAPSHOT.jar>=
+spring-modules-template-0.10-SNAPSHOT-sources.jar>=

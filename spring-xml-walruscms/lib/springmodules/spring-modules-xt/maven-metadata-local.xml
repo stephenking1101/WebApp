@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>org.springmodules</groupId>
+  <artifactId>spring-modules-xt</artifactId>
+  <versioning>
+    <versions>
+      <version>0.10-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20170508083121</lastUpdated>
+  </versioning>
+</metadata>
