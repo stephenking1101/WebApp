@@ -167,3 +167,107 @@
     maxProcessors：最大可以创建的处理请求的线程数；
 
     acceptCount：指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理。
+
+## nginx+redis+tomcat实现session共享的过程
+
+1. nginx安装：http://blog.csdn.net/grhlove123/article/details/47834673
+
+2. redis安装：http://blog.csdn.net/grhlove123/article/details/47783471
+
+3. 准备两个tomcat，修改相应的端口
+
+   名称 IP | 端口 | tomcat版本 | JDK
+   ------ | ----- | --------- | ---
+   tomcat1 | 10.10.49.23 | 8080 | 7.0.40 | 1.7.0_25
+   tomcat2 | 10.10.49.15 | 8081 | 7.0.40 | 1.7.0_25
+
+   修改nginx.conf加上：
+   ```xml
+    upstream backend {
+        server 10.10.49.23:8080 max_fails=1 fail_timeout=10s;
+        server 10.10.49.15:8081 max_fails=1 fail_timeout=10s;
+    }
+    ```
+
+   修改nginx.conf的location成
+   ```xml
+    location / {
+        root   html;
+        index  index.html index.htm;
+        proxy_pass http://backend;
+     }
+   ```
+   
+   启动nginx。
+   下载tomcat-redis-session-manager相应的jar包，主要有三个：
+
+   wget https://github.com/downloads/jcoleman/tomcat-redis-session-manager/tomcat-redis-session-manager-1.2-tomcat-7-java-7.jar
+   wget http://central.maven.org/maven2/redis/clients/jedis/2.5.2/jedis-2.5.2.jar
+   wget http://central.maven.org/maven2/org/apache/commons/commons-pool2/2.0/commons-pool2-2.0.jar
+
+   下载完成后拷贝到$TOMCAT_HOME/lib中
+
+   修改两tomcat的context.xml:
+   ```xml
+   <Context>
+
+    <!-- Default set of monitored resources -->
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+
+    <!-- Uncomment this to disable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="" />
+    -->
+
+    <!-- Uncomment this to enable Comet connection tacking (provides events
+         on session expiration as well as webapp lifecycle) -->
+    <!--
+    <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
+    -->
+
+   <Valve className="com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve" />
+   <Manager className="com.orangefunction.tomcat.redissessions.RedisSessionManager"
+    host="10.10.49.20"
+    port="6379"
+    database="0"
+    maxInactiveInterval="60" />
+   </Context>
+   ```
+
+   在tomcat/webapps/test放一个index.jsp
+   ```jsp
+   <%@ page language="java" %>
+   <html>
+     <head><title>TomcatA</title></head>
+     <body>
+ 
+       <table align="centre" border="1">
+         <tr>
+           <td>Session ID</td>
+           <td><%= session.getId() %></td>
+         </tr>
+         <tr>
+           <td>Created on</td>
+           <td><%= session.getCreationTime() %></td>
+         </tr>
+       </table>
+     </body>
+   </html>
+   sessionID:<%=session.getId()%> 
+   <br> 
+   SessionIP:<%=request.getServerName()%> 
+   <br> 
+   SessionPort:<%=request.getServerPort()%> 
+   <% 
+   //为了区分，第二个可以是222
+   out.println("This is Tomcat Server 1111"); 
+   %>
+   ```
+   启动tomcat，发现有异常：com.orangefunction.tomcat.redissessions.RedisSessionHandlerValve 类找不到
+
+   分别打开三个jar包，确实没有这个类，解决可以参考：
+
+   http://blog.csdn.net/qinxcb/article/details/42041023
+
+
+   通过访问http://10.10.49.20/test/ 可以看到不同的输出，不过session的create time 都是一样的
