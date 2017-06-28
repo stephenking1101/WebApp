@@ -182,7 +182,7 @@
    tomcat2 | 10.10.49.15 | 8081 | 7.0.40 | 1.7.0_25
 
    修改nginx.conf加上：
-   ```xml
+   ```
     upstream backend {
         server 10.10.49.23:8080 max_fails=1 fail_timeout=10s;
         server 10.10.49.15:8081 max_fails=1 fail_timeout=10s;
@@ -190,7 +190,7 @@
     ```
 
    修改nginx.conf的location成
-   ```xml
+   ```
     location / {
         root   html;
         index  index.html index.htm;
@@ -202,7 +202,9 @@
    下载tomcat-redis-session-manager相应的jar包，主要有三个：
 
    wget https://github.com/downloads/jcoleman/tomcat-redis-session-manager/tomcat-redis-session-manager-1.2-tomcat-7-java-7.jar
+   
    wget http://central.maven.org/maven2/redis/clients/jedis/2.5.2/jedis-2.5.2.jar
+   
    wget http://central.maven.org/maven2/org/apache/commons/commons-pool2/2.0/commons-pool2-2.0.jar
 
    下载完成后拷贝到$TOMCAT_HOME/lib中
@@ -269,5 +271,115 @@
 
    http://blog.csdn.net/qinxcb/article/details/42041023
 
+   通过访问http://10.10.49.20/test/ 可以看到不同的输出，不过session的create time 都是一样的
+   
+## Spring Session + Redis实现分布式Session共享
 
-   通过访问http://10.10.49.20/test/ 可以看到不同的输出，不过session的create time 都是一样的
+实际上实现Session共享的方案很多，其中一种常用的就是使用Tomcat、Jetty等服务器提供的Session共享功能，将Session的内容统一存储在一个数据库（如MySQL）或缓存（如Redis）中。我在以前的一篇博客中有介绍如何配置Jetty的Session存储在MySQL或MongoDB中。
+
+本文主要介绍另一种实现Session共享的方案，不依赖于Servlet容器，而是Web应用代码层面的实现，直接在已有项目基础上加入Spring Session框架来实现Session统一存储在Redis中。如果你的Web应用是基于Spring框架开发的，只需要对现有项目进行少量配置，即可将一个单机版的Web应用改为一个分布式应用，由于不基于Servlet容器，所以可以随意将项目移植到其他容器。
+
+Maven依赖
+
+在项目中加入Spring Session的相关依赖包，包括Spring Data Redis、Jedis、Apache Commons Pool：
+```xml
+<!-- Jedis -->
+<dependency>
+    <groupId>redis.clients</groupId>
+    <artifactId>jedis</artifactId>
+    <version>2.9.0</version>
+</dependency>
+<!-- Spring Data Redis -->
+<dependency>
+    <groupId>org.springframework.data</groupId>
+    <artifactId>spring-data-redis</artifactId>
+    <version>1.7.3.RELEASE</version>
+</dependency>
+<!-- Spring Session -->
+<dependency>
+    <groupId>org.springframework.session</groupId>
+    <artifactId>spring-session</artifactId>
+    <version>1.2.2.RELEASE</version>
+</dependency>
+<!-- Apache Commons Pool -->
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-pool2</artifactId>
+    <version>2.4.2</version>
+</dependency>
+```
+配置Filter
+
+在web.xml中加入以下过滤器，注意如果web.xml中有其他过滤器，一般情况下Spring Session的过滤器要放在第一位。
+```xml
+<filter>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+</filter>
+<filter-mapping>
+    <filter-name>springSessionRepositoryFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+</filter-mapping>
+```
+Spring配置文件
+```xml
+<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
+<bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+    <property name="hostName" value="localhost" />
+    <property name="password" value="your-password" />
+    <property name="port" value="6379" />
+    <property name="database" value="10" />
+</bean>
+```
+只需要以上简单的配置，至此为止即已经完成Web应用Session统一存储在Redis中，可以说是及其简单。
+
+### 解决Redis云服务Unable to configure Redis to keyspace notifications异常
+
+如果是自建服务器搭建Redis服务，以上已经完成了Spring Session配置，这一节就不用看了。不过很多公司为了稳定性、减少运维成本，会选择使用Redis云服务，例如阿里云数据库Redis版、腾讯云存储Redis等。使用过程中会出现异常：
+
+Context initialization failed org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'enableRedisKeyspaceNotificationsInitializer' defined in class path resource [org/springframework/session/data/redis/config/annotation/web/http/RedisHttpSessionConfiguration.class]:
+Invocation of init method failed; nested exception is java.lang.IllegalStateException: Unable to configure Redis to keyspace notifications.
+See http://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoperationssessionrepository-sessiondestroyedevent
+Caused by: redis.clients.jedis.exceptions.JedisDataException: ERR unknown command config
+实际上这种异常发生的原因是，很多Redis云服务提供商考虑到安全因素，会禁用掉Redis的config命令： 
+禁用config命令在错误提示链接的文档中，可以看到Redis需要以下的配置：
+
+redis-cli config set notify-keyspace-events Egx
+文档地址： 
+http://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoperationssessionrepository-sessiondestroyedevent
+
+首先要想办法给云服务Redis加上这个配置。
+
+部分Redis云服务提供商可以在对应的管理后台配置： 
+配置notify-keyspace-events如果不能在后台配置，可以通过工单联系售后工程师帮忙配置，例如阿里云.
+
+完成之后，还需要在Spring配置文件中加上一个配置，让Spring Session不再执行config命令：
+
+However, in a secured Redis enviornment the config command is disabled. This means that Spring Session cannot configure Redis Keyspace events for you. To disable the automatic configuration add ConfigureRedisAction.NO_OP as a bean.
+
+配置：
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"/>
+    <bean class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+        <property name="hostName" value="localhost" />
+        <property name="password" value="your-password" />
+        <property name="port" value="6379" />
+        <property name="database" value="10" />
+    </bean>
+
+    <!-- 让Spring Session不再执行config命令 -->
+    <util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>
+
+</beans>
+
