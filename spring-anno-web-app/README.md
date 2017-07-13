@@ -422,6 +422,7 @@ mod_jk－apache-2.2.3.so
 请注意使用绝对路径 
 其实最关键的就是 第一条 第二条 和最后一条，如果要精简，就保留这三条内容就可以了。 
 代码 
+```
 # Load mod_jk module
 LoadModule jk_module "E:"Program Files"Apache Software Foundation"Apache2.2"modules"mod_jk.so"
 # Where to find workers.properties
@@ -441,11 +442,13 @@ JkRequestLogFormat "%w %V %T"
 # Send JSPs for context /examples to worker named ajp13
 JkMount /*.jsp ajp13
 JkMount /*.do ajp13
+```
 上面这一行我们设置了了 /*.jsp ajp13 就是说把所有.jsp结尾的文件都由ajp13这个worker交给tomcat处理了，如果应用被映射为一个.do的URL，这样就会出错.解决方法是再添加如下一行： 
 代码 
 JkMount /*.do ajp13
 5. 配置apache2"conf"workers.properties 
 代码
+```
 workers.tomcat_home=E:"Program Files"Apache Software Foundation"Tomcat 5.5
 workers.java_home=E:"Program Files"Java"jdk1.5.0_08
 worker.list=ajp13
@@ -458,16 +461,18 @@ worker.ajp13.port=8009
 worker.ajp13.host=localhost #本机，若上面Tomcat主机不为localhost，作相应修改 
 worker.ajp13.type=ajp13 #类型 
 worker.ajp13.lbfactor=1 #代理数，不用修改
-
+```
 第二部分:虚拟主机的配置 
 举例配置2个vhost网站 一个是 localhost ，另一个是 www.ok.com 
 当然www.ok.com 是虚拟的，本地测试时，应该修改系统中的hosts文件，添加一行 127.0.0.1 www.ok.com 
+
 1：Apache 虚拟主机配置： 
 Httpd.conf文件最后添加 
 代码 
 include D:"server"Apache2"conf"vhost.conf
 而vhost.conf内容写 
 代码 
+```xml
 NameVirtualHost *:80 
 <VirtualHost *:80> 
 ServerAdmin webmaster at localhost 
@@ -490,9 +495,12 @@ Allow from localhost
 Allow from www.ok.com 
 </Location> 
 </VirtualHost>
+```
 2：Tomcat虚拟主机配置 
+
 添加新的www.ok.com 虚拟主机，在tomcat安装路径"conf"server.xml的最后，找到<Engine>段，改为 
 代码 
+```xml
 <Engine> 
 <Host name=”localhost” ……> 
 </Host>
@@ -501,10 +509,12 @@ Allow from www.ok.com
 <Logger className="org.apache.catalina.logger.FileLogger" directory="logs" prefix="ok.com_log." suffix=".txt" timestamp="true" /> 
 </Host> 
 </Engine>
+```
 3：测试虚拟主机效果 
 访问http://localhost/ 应该可以看到原来的tomcat默认页面。 
 写一个 index.jsp 
 代码 
+```html
 <html> 
 <title> 
 test jsp 
@@ -514,5 +524,6 @@ String showMessage="Oh My God!";
 out.print(showMessage); 
 %> 
 </html>
+```
 放在d:/server/www下面，访问 http://www.ok.com 
 页面显示Oh My God! 就成功了
