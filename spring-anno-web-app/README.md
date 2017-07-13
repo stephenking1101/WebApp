@@ -360,7 +360,7 @@ http://docs.spring.io/spring-session/docs/current/reference/html5/#api-redisoper
 However, in a secured Redis enviornment the config command is disabled. This means that Spring Session cannot configure Redis Keyspace events for you. To disable the automatic configuration add ConfigureRedisAction.NO_OP as a bean.
 
 配置：
-
+```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:util="http://www.springframework.org/schema/util"
@@ -382,4 +382,137 @@ However, in a secured Redis enviornment the config command is disabled. This mea
     <util:constant static-field="org.springframework.session.data.redis.config.ConfigureRedisAction.NO_OP"/>
 
 </beans>
+```
 
+## Apache http Server与Tomcat整合 
+
+既然 Tomcat 本身已经可以提供这样的服务，我们为什么还要引入 Apache 或者其他的一些专门的 HTTP 服务器呢？原因有下面几个：
+Apache的HTTPD是目前比较受欢迎的网站服务器软件，它不 但功能强大，而且完全免费，并且支持市场上流行的各种操作系统(Windows,Linux,Mac os)。同时对于Java Servlet/JSP的支持，通常也会使用同样Apache出品的Tomcat。
+Tomcat除了支持Java Servlet/JSP之外，也可以当做网站服务器使用，但是在对于静态的html文件、图片文件等的解析效率上不如Apache HTTPD的执行效率高。应用tomcat的服务器如果网站的访问量较大，系统资源占用会明显升高，近日笔者在项目执行过程中遇到这一问题，便也想到同时 应用tomcat+apache服务。Apache负责静态资源处理，tomcat负责jsp和java servlet等动态资源的处理。
+
+整合之后的好处是：
+1. 提升对静态文件的处理性能
+2. 利用 Web 服务器来做负载均衡以及容错
+3. 无缝的升级应用程序
+
+原理:
+tomcat 为一个servelet容器，apache为一个web server，两者之间通信通过mod_jk的模块（由web服务器像apache、iis等使用）和Web Server通信，Tomcat 默认的 AJP Connector 的端口是 8009.整个过程其实就是让apache的httpd.conf文件调用mod_jk.conf，mod_jk.conf调用workers.properties，最后配置虚拟主机。
+文件说明 ：
+mod_jk.conf
+主要定义mod_jk模块的位置以及mod_jk模块的连接日志设置，还有定义worker.properties文件的位置。 
+worker.properties 
+定义worker的参数，主要是连接tomcat主机的地址和端口信息。如果Tomcat与apache不在同一台机器上，或者需要做多台机器上tomcat的负载均衡只需要更改workers.properties文件中的相应定义即可。
+％APACHE_HOME％为你的安装目
+
+整合
+1. 准备下载下列文件：
+Jdk1.5 
+下载地址: http://java.sun.com 
+tomcat 5.5.9 
+下载地址：http://jakarta.apache.org 
+apache_2.2.4-win32-x86-no_ssl.msi 
+下载地址: http://httpd.apache.org/download.cgi 
+mod_jk－apache-2.2.3.so
+下载地址：http://archive.apache.org/dist/jakarta/tomcat-connectors/
+2. 安装好Jdk、tomcat、apache后,加入mod_jk连接模块，就是把mod_jk－apache-2.2.3.so文件重名为mod_jk.so文件并拷贝到％APACHE_HOME％"modules下
+3. 修改apache的配置文件：
+为了保持httpd.conf文件的简洁，把jk模块的配置放到单独的文件中来，就在httpd.conf中增加一行调用 
+代码  include ％APACHE_HOME％Apache2"conf"mod_jk.conf
+4. 配置mod_jk.conf 
+请注意使用绝对路径 
+其实最关键的就是 第一条 第二条 和最后一条，如果要精简，就保留这三条内容就可以了。 
+代码 
+# Load mod_jk module
+LoadModule jk_module "E:"Program Files"Apache Software Foundation"Apache2.2"modules"mod_jk.so"
+# Where to find workers.properties
+JkWorkersFile "E:"Program Files"Apache Software Foundation"Apache2.2"conf"workers.properties"
+# Where to put jk logs
+JkLogFile "E:"Program Files"Apache Software Foundation"Apache2.2"logs"mod_jk.log"
+# Set the jk log level [debug/error/info]
+JkLogLevel info
+# Select the log format
+JkLogStampFormat "[%a %b %d %H:%M:%S %Y] "
+# JkOptions indicate to send SSL KEY SIZE，
+JkOptions +ForwardKeySize +ForwardURICompat -ForwardDirectories
+# JkRequestLogFormat set the request format
+JkRequestLogFormat "%w %V %T"
+# Send servlet for context /examples to worker named ajp13
+#JkMount /servlet/* ajp13
+# Send JSPs for context /examples to worker named ajp13
+JkMount /*.jsp ajp13
+JkMount /*.do ajp13
+上面这一行我们设置了了 /*.jsp ajp13 就是说把所有.jsp结尾的文件都由ajp13这个worker交给tomcat处理了，如果应用被映射为一个.do的URL，这样就会出错.解决方法是再添加如下一行： 
+代码 
+JkMount /*.do ajp13
+5. 配置apache2"conf"workers.properties 
+代码
+workers.tomcat_home=E:"Program Files"Apache Software Foundation"Tomcat 5.5
+workers.java_home=E:"Program Files"Java"jdk1.5.0_08
+worker.list=ajp13
+worker.ajp13.port=8009
+worker.ajp13.host=localhost #
+worker.ajp13.type=ajp13 #
+worker.ajp13.lbfactor=1 #
+worker.list=ajp13 
+worker.ajp13.port=8009 
+worker.ajp13.host=localhost #本机，若上面Tomcat主机不为localhost，作相应修改 
+worker.ajp13.type=ajp13 #类型 
+worker.ajp13.lbfactor=1 #代理数，不用修改
+
+第二部分:虚拟主机的配置 
+举例配置2个vhost网站 一个是 localhost ，另一个是 www.ok.com 
+当然www.ok.com 是虚拟的，本地测试时，应该修改系统中的hosts文件，添加一行 127.0.0.1 www.ok.com 
+1：Apache 虚拟主机配置： 
+Httpd.conf文件最后添加 
+代码 
+include D:"server"Apache2"conf"vhost.conf
+而vhost.conf内容写 
+代码 
+NameVirtualHost *:80 
+<VirtualHost *:80> 
+ServerAdmin webmaster at localhost 
+DocumentRoot "D:/server/Tomcat/webapps/ROOT" 
+ServerName localhost 
+ErrorLog logs/localhost-error_log 
+CustomLog logs/localhost-access_log common 
+</VirtualHost>
+<VirtualHost *:80> 
+ServerAdmin webmaster@dummy-host dot example.com 
+DocumentRoot D:/server/www/ 
+ServerName www.ok.com 
+ErrorLog logs/ok.com-error_log 
+CustomLog logs/ok.com-access_log common 
+<Location /server-status> # 这样我可以看到apache服务器状态 
+SetHandler server-status 
+Order deny，allow 
+Deny from all 
+Allow from localhost 
+Allow from www.ok.com 
+</Location> 
+</VirtualHost>
+2：Tomcat虚拟主机配置 
+添加新的www.ok.com 虚拟主机，在tomcat安装路径"conf"server.xml的最后，找到<Engine>段，改为 
+代码 
+<Engine> 
+<Host name=”localhost” ……> 
+</Host>
+<Host name="www.ok.com" debug="0" appBase="D:/server/www/" unpackWARs="true" autoDeploy="true" xmlValidation="false" xmlNamespaceAware="false"> 
+<Context path="" docBase="." /> 
+<Logger className="org.apache.catalina.logger.FileLogger" directory="logs" prefix="ok.com_log." suffix=".txt" timestamp="true" /> 
+</Host> 
+</Engine>
+3：测试虚拟主机效果 
+访问http://localhost/ 应该可以看到原来的tomcat默认页面。 
+写一个 index.jsp 
+代码 
+<html> 
+<title> 
+test jsp 
+</title> 
+<% 
+String showMessage="Oh My God!"; 
+out.print(showMessage); 
+%> 
+</html>
+放在d:/server/www下面，访问 http://www.ok.com 
+页面显示Oh My God! 就成功了
