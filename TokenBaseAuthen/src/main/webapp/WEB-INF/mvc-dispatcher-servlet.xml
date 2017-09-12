@@ -1,0 +1,48 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:security="http://www.springframework.org/schema/security"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <context:component-scan base-package="com.superware.config" />
+    <!-- 
+    <bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix">
+            <value>/WEB-INF/pages/</value>
+        </property>
+        <property name="suffix">
+            <value>.jsp</value>
+        </property>
+    </bean>
+    
+    <mvc:resources mapping="/**" location="//WEB-INF/resources/" />
+     -->
+    <mvc:annotation-driven />
+    
+    <security:http  pattern="/api/**" entry-point-ref="restAuthenticationEntryPoint" use-expressions="true" auto-config="false" create-session="stateless" >
+	    <security:intercept-url pattern="/apitoken" access="permitAll" />
+	    <security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER"   />
+	    <security:intercept-url pattern="/api/**" access="isAuthenticated()" />
+	     
+	 
+	    <security:logout />
+	</security:http>
+	
+	<security:authentication-manager>
+    </security:authentication-manager>
+     
+	<bean class="com.superware.config.CustomTokenAuthenticationFilter"
+	    id="authenticationTokenProcessingFilter">
+	    <constructor-arg type="java.lang.String"><value>/api/**</value></constructor-arg>
+	</bean>
+</beans>

@@ -1,0 +1,207 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.superware</groupId>
+  <artifactId>tokenbaseauthen</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>TokenBaseAuthen Maven Webapp</name>
+  <url>http://maven.apache.org</url>
+  
+  <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>1.1.2.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+  </dependencyManagement>
+    
+  <properties>
+		<jdk.version>1.8</jdk.version>
+		<spring.version>4.1.1.RELEASE</spring.version>
+		<junit.version>3.8.1</junit.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
+  </properties>
+	
+  <dependencies>
+  	
+  	<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency>
+		
+		<!-- Spring Security -->
+	    <dependency>
+	        <groupId>org.springframework.security</groupId>
+	        <artifactId>spring-security-web</artifactId>
+	    </dependency>
+	
+	    <dependency>
+	        <groupId>org.springframework.security</groupId>
+	        <artifactId>spring-security-config</artifactId>
+	    </dependency>
+		
+		<!-- Database (H2) -->
+		<dependency>
+		    <groupId>com.h2database</groupId>
+		    <artifactId>h2</artifactId>
+		</dependency>
+		         
+		<!-- DataSource (HikariCP) -->
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		</dependency>
+		 
+		<!-- JPA Provider (Hibernate) -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-entitymanager</artifactId>
+		</dependency>
+		 
+		<!-- Spring Data JPA -->
+		<dependency>
+		    <groupId>org.springframework.data</groupId>
+		    <artifactId>spring-data-jpa</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+	    </dependency>
+		
+		<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        
+        <dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-core</artifactId>
+		</dependency>
+		
+		<dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        
+        <dependency>
+		    <groupId>org.codehaus.jackson</groupId>
+		    <artifactId>jackson-mapper-asl</artifactId>
+		</dependency>
+
+        <!--  Gson: Java to Json conversion -->
+	    <dependency>
+	      <groupId>com.google.code.gson</groupId>
+	      <artifactId>gson</artifactId>
+	      <scope>compile</scope>
+	    </dependency>
+        
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+        </dependency>
+        
+        <dependency>
+		    <groupId>io.jsonwebtoken</groupId>
+		    <artifactId>jjwt</artifactId>
+		    <version>0.7.0</version>
+		</dependency>
+		
+        <dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>servlet-api</artifactId>
+		    <version>2.5</version>
+		    <scope>provided</scope>
+		</dependency>
+        
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <scope>test</scope>
+	    </dependency>
+  </dependencies>
+  <build>
+    <finalName>spring-anno-web-app</finalName>
+    
+    <plugins>
+		    <!-- Eclipse project -->
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-eclipse-plugin</artifactId>
+			<version>2.9</version>
+			<configuration>
+			  <!-- Always download and attach dependencies source code -->
+				<downloadSources>true</downloadSources>
+				<downloadJavadocs>false</downloadJavadocs>
+				<!-- Avoid type mvn eclipse:eclipse -Dwtpversion=2.0 -->
+				<wtpversion>2.0</wtpversion>
+				<wtpContextName>spring-anno-web-app</wtpContextName>
+			</configuration>
+		  </plugin>
+
+		  <!-- Set JDK Compiler Level -->
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-compiler-plugin</artifactId>
+			<version>3.3</version>
+			<configuration>
+				<source>${jdk.version}</source>
+				<target>${jdk.version}</target>
+			</configuration>
+		  </plugin>
+
+		  <!-- For Maven Tomcat Plugin -->
+		  <plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>2.2</version>
+			<configuration>
+				<path>/spring-anno-web-app</path>
+			</configuration>
+		  </plugin>
+		  
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-checkstyle-plugin</artifactId>
+			<version>2.11</version>
+			<executions>
+				<execution>
+					<id>validate</id>
+					<phase>validate</phase>
+					<configuration>
+						<configLocation>checkstyle.xml</configLocation>
+						<encoding>UTF-8</encoding>
+						<consoleOutput>true</consoleOutput>
+						<failsOnError>true</failsOnError>
+						<linkXRef>false</linkXRef>
+					</configuration>
+					<goals>
+						<goal>check</goal>
+						</goals>
+				</execution>
+			</executions>
+		</plugin>
+
+		</plugins>
+  </build>
+</project>
