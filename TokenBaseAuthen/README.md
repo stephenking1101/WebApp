@@ -48,15 +48,18 @@
 
 ## Simplifying Boolean Conditions:
 The below code is written in a bad way-
+
     boolean a = true;    
     if (a == true) {    ...    } 
     
 It can be simplified as-
+
     boolean a = true;    
     if (a) {    ...    } 
     
 ## Using Magic Numbers:
 A magic number is a direct usage of a number in the code.
+
     public class Foo {        
         public void setPassword(String password) {             
             // don't do this             
