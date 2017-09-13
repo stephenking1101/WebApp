@@ -45,3 +45,25 @@
 * use mocked classes (Mockito) instead of building integration tests with Spring Contexts
 * split them up into given/when/then sections (use comments //given // when // then)
 * verify code coverage (e.g. EclEmma)
+
+## Simplifying Boolean Conditions:
+The below code is written in a bad way-
+    boolean a = true;    
+    if (a == true) {    ...    } 
+    
+It can be simplified as-
+    boolean a = true;    
+    if (a) {    ...    } 
+    
+## Using Magic Numbers:
+A magic number is a direct usage of a number in the code.
+    public class Foo {        
+        public void setPassword(String password) {             
+            // don't do this             
+            if (password.length() > 7) {                  
+                throw new InvalidArgumentException("password");             
+            }        
+        }    
+    } 
+    
+This should be refactored to:
