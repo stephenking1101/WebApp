@@ -115,10 +115,10 @@ NullPointerException is a situation in code where you try to access/modify an ob
   1. Ternary Operator
   
      This operator results to the value on the left hand side if not null else right hand side is evaluated. It has syntax like :
-       
-     ```
+    
+       ```
      boolean expression ? value1 : value2;
-     ```
+       ```
      
      If expression is evaluated as true then entire expression returns value1 otherwise value2. Its more like if-else construct but it is more effective and expressive. To prevent NullPointerException (NPE), use this operator like below code:
      
