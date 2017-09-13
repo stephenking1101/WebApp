@@ -113,6 +113,7 @@ NullPointerException is a situation in code where you try to access/modify an ob
 ## Best ways to avoid NullPointerException:-  
   
   1. Ternary Operator
+  
      This operator results to the value on the left hand side if not null else right hand side is evaluated. It has syntax like :
        
      ```
@@ -124,6 +125,7 @@ NullPointerException is a situation in code where you try to access/modify an ob
      ```
      
   2. Use Apache commons StringUtils for String operations
+  
      Apache commons lang package is a collection of several utility classes for various kind of operations. One of them is StringUtils.java. Use StringUtils.isNotEmpty() for verifying if string passed as parameter is null or empty string. If it is not null or empty; then use it further.Other similar methods are StringUtils. IsEmpty(), and StringUtils.equals().
      ```
      if (StringUtils.isNotEmpty(obj.getvalue())){
@@ -133,7 +135,9 @@ NullPointerException is a situation in code where you try to access/modify an ob
      ```
      
   3. Check Method Arguments for null very early
+  
      You should always put input validation at the beginning of your method so that the rest of your code does not have to deal with the possibility of incorrect input. So if someone passes in a null, things will break early in the stack rather than in some deeper location where the root problem will be rather difficult to identify. Aiming for fail-fast behavior is a good choice in most situations.
      
   4. Consider Primitives Rather than Objects
+  
      Null problem occurs where object references points to nothing. So it is always safe to use primitives as much as possible because they does not suffer with null references. All primitives must have some default values also attached so beware of it.
