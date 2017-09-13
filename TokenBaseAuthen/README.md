@@ -148,3 +148,78 @@ Null problem occurs where object references points to nothing. So it is always s
 5. Carefully Consider Chained Method Calls
   
 While chained statements are nice to look at in the code, they are not NPE friendly. A single statement spread over several lines will give you the line number of the first line in the stack trace regardless of where it occurs.
+
+```
+ref.method1().method2().method3().methods4();
+```
+
+6. Use String.valueOf() Rather than toString()
+
+If you have to print the string representation of any object, the don’t use object.toString(). This is a very soft target for NPE. Instead use String.valueOf(object).Even if object is null in second method, it will not give exception and will prints ‘null’ to output stream.
+
+7. Avoid returning null from your methods
+
+An awesome tip to avoid NPE is to return empty strings or empty collections rather than a null. Do this consistently across your application. You will note that a bucket load of null checks become unneeded if you do so.An example could be:
+
+```
+List<string> data = null;
+@SuppressWarnings("unchecked")
+public List getDataDemo(){    
+    if(data == null)    
+    return Collections.EMPTY_LIST; //Returns unmodifiable list    
+    return data;
+}
+```
+
+Users of above method, even if they missed the null check, will not see ugly NPE.
+
+8. Discourage Passing of Null Parameters
+
+In some method declarations the method expects two or more parameters. If one of the parameters is passed as null, then also method works in some different manner. Avoid this.
+
+In stead you should define two methods (overload); one with single parameter and second with two parameters. Make parameters passing mandatory. This helps a lot when writing application logic inside methods because you are sure that method parameters will not be null; so you don’t put unnecessary assumptions and assertions.
+
+9. Call String.equals(String) on ‘Safe’ Non-Null String
+
+In stead of writing below code for string comparison
+
+```
+public class SampleNPE {    
+     public void demoEqualData(String param) {        
+         if (param.equals("check me")) {            
+             // some code        
+         }    
+     }
+}
+```
+
+write above code like this. This will not cause in NPE even if param is passed as null.
+
+```
+public class SampleNPE {    
+    public void demoEqualData(String param) {        
+        if ("check me".equals(param)) // Do like this        
+        {            
+            // some code        
+        }    
+    }
+}
+```
+
+FindBugs is a good tool which detects possible null pointers in the code.
+
+## Properly Closing Resources:
+In Java, memory bugs often appear as performance problems, because memory leaks usually cause performance degradation. Because Java manages the memory automatically, developers do not control when and how garbage is collected. To avoid memory leaks, check your applications to make sure they:
+
+1. Release JDBC ResultSet, Statement, or Connection.
+2. Release failures here are usually in error conditions. Use a 'finally' block to make sure these objects are released appropriately.
+3. Release instance or resource objects that are stored in static tables.
+
+Perform clean up on serially reusable objects.
+
+An example is appending error messages to a Vector defined in a serially reusable object. The application never cleaned the Vector before it was given to the next user. As the object was reused over and over again, error messages accumulated, causing a memory leak that was difficult to track down.
+
+## Using Generics:
+Generics enable types (classes and interfaces) to be parameters when defining classes, interfaces and methods. Much like the more familiar formal parameters used in method declarations, type parameters provide a way for you to re-use the same code with different inputs. The difference is that the inputs to formal parameters are values, while the inputs to type parameters are types.
+
+Code that uses generics has many benefits over non-generic code:
