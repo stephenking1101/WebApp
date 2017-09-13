@@ -119,7 +119,9 @@ NullPointerException is a situation in code where you try to access/modify an ob
      ```
      boolean expression ? value1 : value2;
      ```
+     
      If expression is evaluated as true then entire expression returns value1 otherwise value2. Its more like if-else construct but it is more effective and expressive. To prevent NullPointerException (NPE), use this operator like below code:
+     
      ```
      String str = (param == null) ? "NA" : param;
      ```
@@ -127,6 +129,7 @@ NullPointerException is a situation in code where you try to access/modify an ob
   2. Use Apache commons StringUtils for String operations
   
      Apache commons lang package is a collection of several utility classes for various kind of operations. One of them is StringUtils.java. Use StringUtils.isNotEmpty() for verifying if string passed as parameter is null or empty string. If it is not null or empty; then use it further.Other similar methods are StringUtils. IsEmpty(), and StringUtils.equals().
+     
      ```
      if (StringUtils.isNotEmpty(obj.getvalue())){
          String s = obj.getvalue();
@@ -141,3 +144,7 @@ NullPointerException is a situation in code where you try to access/modify an ob
   4. Consider Primitives Rather than Objects
   
      Null problem occurs where object references points to nothing. So it is always safe to use primitives as much as possible because they does not suffer with null references. All primitives must have some default values also attached so beware of it.
+
+  5. Carefully Consider Chained Method Calls
+  
+     While chained statements are nice to look at in the code, they are not NPE friendly. A single statement spread over several lines will give you the line number of the first line in the stack trace regardless of where it occurs.
