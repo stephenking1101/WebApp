@@ -59,7 +59,7 @@ It can be simplified as-
 ```    
 ## Using Magic Numbers:
 A magic number is a direct usage of a number in the code.
-
+```
     public class Foo {        
         public void setPassword(String password) {             
             // don't do this             
@@ -68,5 +68,51 @@ A magic number is a direct usage of a number in the code.
             }        
         }    
     } 
-    
+```    
 This should be refactored to:
+```
+    public class Foo {
+        public static final int MAX_PASSWORD_SIZE = 7;      
+        
+        public void setPassword(String password) {      
+            if (password.length() > MAX_PASSWORD_SIZE) {                 
+                throw new InvalidArgumentException("password");              
+            }       
+        } 
+    }
+```
+
+It improves readability of the code and it's easier to maintain. Imagine the case where you need to set the size of the password field in the GUI. If you use a magic number, whenever the max size changes, you have to change in two code locations. If you forget one, this will lead to inconsistencies.
+
+## Avoiding NullPointerExceptions:
+## Why NullPointerException occur:-
+
+NullPointerException is a situation in code where you try to access/modify an object which has not been initialized yet. It essentially means that object reference variable is not pointing anywhere and refers to nothing or ‘null’. A simple example can be:
+```
+    package com.howtodoinjava.demo.npe;
+    public class SampleNPE {    
+        public static void main(String[] args) {        
+            String s = null;        
+            System.out.println(s.toString()); // s is un-initialized and is null    
+        }
+    }
+```
+
+## Common places where NullPointerException usually occur:-
+## NullPointerException can occur anywhere in the code for various reasons but here is a list of the most frequent ones:
+  1. Invoking methods on an object which is not initialized
+  2. Parameters passed in a method are null
+  3. Calling 'toString()' or 'equals()' method on object which is null
+  4. Comparing object properties in if-block without checking null equality
+  5. Incorrect configuration for frameworks like spring which works on dependency injection
+  6. Using synchronized on an object which is null
+  7. Chained statements i.e. multiple method calls in a single statement
+  
+  *This is not an exhaustive list. There are several other places and reasons also.*
+  
+  ## Best ways to avoid NullPointerException:-  
+    1. Ternary Operator
+       This operator results to the value on the left hand side if not null else right hand side is evaluated. It has syntax like :
+       ```
+       boolean expression ? value1 : value2;
+       ```
