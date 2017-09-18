@@ -19,16 +19,22 @@
 <button type="button" onclick="getToken();">Get Token</button>
 <div id="Token"></div>
             <div class="form-group">
-			  <label for="usr">Token:</label>
+              <button type="button" onclick="testToken();">Test Token</button> <br>
+			  <label for="usr">Name:</label>
 			  <input type="text" class="form-control" id="usr">
-			  <button type="button" onclick="testToken();">Test Token</button>
 			</div>
 </div>
 
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootbox.min.js"></script>
+<script src="js/BaseController.js"></script>
+<script src="js/IndexController.js"></script>
 <script>
+var contextPath = "<%=request.getContextPath()%>";
+var BASE_URL = window.location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : '') + contextPath;
+var indexController = new IndexController(BASE_URL);
+
 function getToken(){
 	console.log("getToken() called");
 	$.ajax({
@@ -62,7 +68,7 @@ function getToken(){
 
 function testToken(){
 	console.log("testToken() called");
-    $.ajax({
+    /* $.ajax({
         url: 'api/test',
         type: 'GET',
         contentType: 'application/json; charset=utf-8',
@@ -83,7 +89,13 @@ function testToken(){
             }
         },
         async:false
-    });
+    }); */
+	indexController.getAll($("#Token").text())
+	   .done(function(xhr){
+		        //the xhr is passed by deferred.resolve(obj) in BaseController
+		        console.log(xhr);
+		        $("#usr").val(getJSONValue(xhr, "name"));
+		     });
 }
 
 function openErrorBootBox(message){
@@ -112,5 +124,40 @@ function getJSONValue(data, id){
     return result;
 }
 </script>
+<!-- This is used for messages displayed to the user with just one button to dismiss the modal -->
+<div id="messageModal" class="modal fade">
+    <div class="modal-dialog">
+            <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h3 id="messageModalHeader">Error</h3>
+    </div>
+    <div id="messageModalBody" class="modal-body">
+        <p>Please try again or contact support.</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-danger" data-dismiss="modal"
+            aria-hidden="true">Ok</a>
+    </div>
+            </div>
+    </div>
+</div>
+
+<!-- This is used for progress -->
+<div class="modal fade" id="progressModal" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+            <div class="modal-content">
+    <div class="modal-header">
+        <h3 id="progressModalHeader"></h3>
+    </div>
+    <div class="modal-body">
+        <div class="progress progress-danger progress-striped active">
+            <div class="bar" style='width: 100%'></div>
+        </div>
+    </div>
+            </div>
+    </div>
+</div>
 </body>
 </html>
