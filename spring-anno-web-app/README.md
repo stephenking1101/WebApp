@@ -168,6 +168,59 @@
 
     acceptCount：指定当所有可以使用的处理请求的线程数都被使用时，可以放到处理队列中的请求数，超过这个数的请求将不予处理。
 
+## 改变Tomcat的ROOT目录
+	
+修改conf/server.xml，找到</Host>标签，在之前加入这样一行：<Context path="" docBase="F:/MyWeb" debug="0" reloadable="true" crossContext="true" />。
+
+重启Tomcat，OK。
+
+对上面语句做下解释：该句是设置Tomcat的虚拟路径，书写语法是<Context path="虚拟目录" docBase="实际目录" debug="0" reloadable="true" crossContext="true" />，我将网站实际根目录映射到了F:/MyWeb，于是更改了网站跟目录的映射。
+
+这种修改方式的结果是：localhost依然是最初的webapps，但网站的根目录是F:/MyWeb，相当于把原始的ROOT目录映射成F:/MyWeb，以后写的网站直接放到F:/MyWeb下，运行http://localhost:8080/index.jsp，就能访问了。而且，由于localhost的路径没变，所以Tomcat Manager可以继续使用。
+	
+## Tomcat发布项目
+
+在tomcat服务器的conf\Catalina\localhost目录下创建一个xml文件(路径找不到就自己创建)，内容如下：
+
+```
+　　　　<Context path="/TestPro" docBase="D:\javaProject\TestPro\WebContent" debug="0" privileged="true">
+　　　　</Context>
+```
+
+其中path是指项目的发布路径，也就是访问路径，假如像上边那样填写，就要这样访问：http://localhost:8080/TestPro
+
+docBase是指项目的目录，很好理解，你的项目最终发布，就是发布的这个目录，通过配置，直接让tomcat指向这个目录，这样就可以运行项目啦。
+
+debug 为设定debug的等级0提供最少的信息,9提供最多的信息。
+
+reloadable=true时 当web.xml或者class有改动的时候都会自动重新加载不需要从新启动服务。
+
+crosscontext="true"表示配置的不同context共享一个session。
+
+privileged="true" 意味着 Tomcat 自身的应用，比如· Tomcat Manager ，可以被当前这个应用访问。根据官方文档的解释，这个机理是改变应用的类加载器为 Server class loader 。我想，这种改变，会令应用程序发现 Tomcat 本身的类，都能够从应用自己的类加载器上寻找到。从而实现对 Tomcat 自身应用程序方法的调用。
+
+注意：xml的文件名一定要和发布路径一致！在本例中xml文件名必须为：TestPro
+
+* tomcat部署服务的四种方式
+
+1. 利用tomcat的自动部署
+
+ 此种方式最为简单，我们只需要将web应用放到tomcat的webapps目录下即可！
+
+2. 利用控制台补部署 
+
+3. 增加自定义部署文件
+
+此种方式是在tomcat 的根目录下的\conf\Catalina\localhost目录下，添加一个任意名称的xml文件，此文件名将作为web应用的虚拟路径。
+
+内容如下：<Context docBase="D:\xxx" debug="0" reloadable="true" crossContext="true" />
+
+4. 修改server.xml文件，部署web应用
+
+在tomcat 的根目录下的\conf\目录下，修改server.xml文件，添加
+
+<Context path="/xxx" docBase="D:\xxx" debug="0" reloadable="true" crossContext="true" />
+	
 ## nginx+redis+tomcat实现session共享的过程
 
 1. nginx安装：http://blog.csdn.net/grhlove123/article/details/47834673
