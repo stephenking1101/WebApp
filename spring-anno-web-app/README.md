@@ -116,9 +116,11 @@
     <Connector port="80" protocol="HTTP/1.1"
            connectionTimeout="20000"
            redirectPort="8443" URIEncoding="utf-8"
-                       compression="on"
-                       compressionMinSize="50" noCompressionUserAgents="gozilla, traviata"
-                       compressableMimeType="text/html,text/xml,text/javascript,text/css,text/plain" />
+                   useSendfile="false"
+                   compression="on"
+                   compressionMinSize="50"
+                   noCompressionUserAgents="gozilla,traviata"
+                   compressableMimeType="text/html,text/xml,text/plain,text/css,text/javascript,application/javascript" />
     ```
 
 13. 配置Tomcat线程池以使用高并发连接
